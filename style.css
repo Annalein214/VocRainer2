@@ -1,0 +1,3 @@
+body {
+  touch-action: pan-y; /* disable zoom on iOS > v13 https://dev.to/jasperreddin/disabling-viewport-zoom-on-ios-14-web-browsers-l13*/
+}
