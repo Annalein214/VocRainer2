@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'> <!-- should prevent zoom, but does not -->
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
     <!-- Apple stuff -->
     <!--<link rel="apple-touch-icon" href="http://annalein.local/apple-touch-icon.png">
     <link rel="apple-touch-startup-image" href="http://annalein.local/apple-launch-page.png">-->
@@ -11,22 +11,23 @@
     <!--<meta name="apple-mobile-web-app-status-bar-style" content="black"> --><!-- hide status bar -->
     <!--<link rel="shortcut icon" href="#"> --><!-- removes "get favicon.ico failed" error  -->
     <title>VocRainer</title>
-    <!-- set device width to screen width, enable zoom-->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--<link rel="stylesheet" href="jquery/jquery.mobile-1.4.0.min.css">-->
     <!-- jquery libraries -->
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
     <script src="jquery.js"></script>
     <!--<script src="jquery/jquery.mobile-1.4.0.min.js"></script>-->
     <!-- my code -->
-    <!--<link rel="stylesheet" href="custom.css">-->
+    <link rel="stylesheet" href="style.css">
     <!--<script src="scripts/helper.js"></script>
     <script src="scripts/speech.js"></script>
     <script src="scripts/db.js"></script>
     <script src="scripts/sync.js"></script>
     <script src="scripts/quiz.js"></script>
     <script src="scripts/voc.js"></script>
-    <script src="scripts/main.js"></script>-->
+    -->
+    <script src="scripts/settings.js"></script>
+    <script src="scripts/login.js"></script>
+    <script src="scripts/main.js"></script><!-- last!! -->
     
 
 </head>
@@ -40,8 +41,9 @@
             <!-- https://demos.jquerymobile.com/1.4.5/toolbar/ -->
         </div>
         <div role="main" class="ui-content">
+            
         </div>
-        <div data-role="footer" data-position="fixed">
+        <div data-role="footer" data-position="fixed" style="display:none">
             <div data-role="navbar" data-grid="c">
             <ul>
                 <!--<li><a href="#" name="home" data-icon="home" class="ui-btn-active">Home</a></li>-->
