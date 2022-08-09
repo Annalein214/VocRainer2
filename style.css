@@ -1,3 +1,92 @@
 body {
   touch-action: pan-y; /* disable zoom on iOS > v13 https://dev.to/jasperreddin/disabling-viewport-zoom-on-ios-14-web-browsers-l13*/
+  background-color: #261E1A;
+  color: #FEDAD3;
+}
+
+
+a {
+  color: #FEDAD3;
+}
+
+/* HEADER ***************************** */
+
+#header {
+  display:  block;
+  position:  fixed;
+  top:  0;
+  left:  0;
+  right: 0;
+  height: auto;
+  background-color: #45342C;
+  border: 0.5px solid #6F5246;
+  text-shadow: 1px 1px 2px #221A16;
+}
+#header div {
+  float:  left;
+  width: 20%;
+  margin:  0px;
+  height: 40px;
+  text-align: center;
+}
+
+#header div.h1 {
+  width: 59%;
+  font-size: xx-large;
+}
+
+#header div a {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+}
+
+#header div a[name=left] {
+  text-align: left;
+  padding-left: 5px;
+  padding-top: 10px;
+}
+
+#header div a[name=right] {
+  text-align: right;
+  padding-right: 5px;
+  padding-top: 10px;
+}
+
+/* NAVBAR ***************************** */
+
+#navbar {
+  z-index: 1000;
+  position: fixed;
+  bottom:  0;
+  left:  0;
+  right:  0;
+  height:  auto;
+  text-shadow: 1px 1px 2px #221A16;
+}
+
+#navbar ul {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#navbar ul li {
+  float:  left;
+  margin: 0px;
+  border: 0.5px solid #6F5246;
+  width: 25%;
+  background-color: #45342C;
+}
+
+#navbar li a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
 }

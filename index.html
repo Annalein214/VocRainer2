@@ -10,7 +10,7 @@
     <!--<meta name="apple-mobile-web-app-capable" content="yes"> --><!-- hide user interface components -->
     <!--<meta name="apple-mobile-web-app-status-bar-style" content="black"> --><!-- hide status bar -->
     <!--<link rel="shortcut icon" href="#"> --><!-- removes "get favicon.ico failed" error  -->
-    <title>VocRainer</title>
+    <title>VocRainer v2</title>
     <!--<link rel="stylesheet" href="jquery/jquery.mobile-1.4.0.min.css">-->
     <!-- jquery libraries -->
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
@@ -25,6 +25,7 @@
     <script src="scripts/quiz.js"></script>
     <script src="scripts/voc.js"></script>
     -->
+    <script src="scripts/statistics.js"></script>
     <script src="scripts/settings.js"></script>
     <script src="scripts/login.js"></script>
     <script src="scripts/main.js"></script><!-- last!! -->
@@ -34,17 +35,16 @@
 <body>
 <!-- the basic page -->
     <div data-role="page"  class="ui-body-b">
-        <div data-role="header" data-position="fixed">
-            <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini ui-btn-icon-left" name="left" style="display:none">Back</a>
-            <h1>VocRainer</h1>
-            <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini ui-btn-icon-right" name="right" style="display:none">Add</a>
-            <!-- https://demos.jquerymobile.com/1.4.5/toolbar/ -->
+        <div id="header">
+            <div><a href="#"  name="left">Back</a></div>
+            <div class="h1">VocRainer</div>
+            <div><a href="#" name="right">Add</a></div>
         </div>
         <div role="main" class="ui-content">
-            
+            <!-- content changes all the time, don't save anything here in index.html-->
         </div>
         <div data-role="footer" data-position="fixed" style="display:none">
-            <div data-role="navbar" data-grid="c">
+            <div id="navbar">
             <ul>
                 <!--<li><a href="#" name="home" data-icon="home" class="ui-btn-active">Home</a></li>-->
                 <li><a href="#"  name="quiz" data-icon="alert">Quiz</a></li> <!-- get more icons: https://demos.jquerymobile.com/1.4.3/navbar/ -->
