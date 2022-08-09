@@ -56,10 +56,10 @@ var loadpage = function(name, data=null){
     CURRENTPAGE=name;
 
     // first empty the page
-    $('div[role="main"]').empty();
+    $('#main').empty();
     // header cannot be removed+added, only manipulated
-    $('div[data-role="header"] a[name="left"]').hide();
-    $('div[data-role="header"] a[name="right"]').hide();
+    $('#header div a[name="left"]').hide();
+    $('#header div a[name="right"]').hide();
 
     console.log("MAIN: load page:", name);
 
