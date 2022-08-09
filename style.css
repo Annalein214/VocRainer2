@@ -9,6 +9,12 @@ a {
   color: #FEDAD3;
 }
 
+/* MAIN ***************************** */
+
+#main {
+  padding-top: 40px; /* to avoid overlap with header */
+}
+
 /* HEADER ***************************** */
 
 #header {

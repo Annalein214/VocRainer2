@@ -6,14 +6,14 @@ if (localStorage.getItem("readaloud") === null) {
 
 
 var loadpage_settings = function(){
-    $('div[data-role="header"] h1').text("Settings");
+    $('#header div.h1').text("Settings");
 
     // ---------------
     // option to automatically read vocabulary aloud in quiz or not
     // TODO Test
     var selected=''; 
     if (localStorage.getItem("readaloud")) selected=' selected=""';
-    $('div[role="main"]').append('<div class="ui-field-contain">'+
+    $('#main').append('<div class="ui-field-contain">'+
                                     '<label for="readaloud" style="float:left;width: 70% !important;">Read words aloud in quiz:</label>'+
                                         '<select name="readaloud" id="readaloud" data-role="flipswitch">'+
                                             '<option value="off">Off</option>'+
@@ -26,7 +26,7 @@ var loadpage_settings = function(){
     });
 
     // ---------------
-    $('div[role="main"]').append('<input type="submit" name="user_logout" value="Logout" />');
+    $('#main').append('<input type="submit" name="user_logout" value="Logout" />');
     $('input[name="user_logout"]').click(function(event){            
         logout();
     });

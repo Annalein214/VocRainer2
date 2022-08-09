@@ -34,7 +34,7 @@ var check_login = function(){
         initialize_website();
     }
     else{
-    	$('div[role="main"]').empty();
+    	$('#main').empty();
     	// show login screen and initialize login submit button
     	var loginscreen = '<div class="ui-login">'+
 						'<form id="form-login" method="post"> '+
@@ -47,7 +47,7 @@ var check_login = function(){
 		                    '<input type="submit" name="userlogin_submit" value="Login" />'+
 		                '</form>'+
 		            '</div>';
-		$('div[role="main"]').append(loginscreen);
+		$('#main').append(loginscreen);
         $('#form-login input[name=userlogin_submit]').click(function(event){        
             event.preventDefault();    
             login();
