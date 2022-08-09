@@ -31,7 +31,6 @@ $( window ).on( "load", function() {
 
 var initialize_website = function(){
     // collect what is needed to start the website
-
     // remove login screen
     $('div[class="ui-login"]').hide();
     // show footer
@@ -40,6 +39,7 @@ var initialize_website = function(){
     $('div[data-role="footer"] a').click(function(event){            
         loadpage(event.target.name);
     });
+    loadpage();
 }
 
 // ############################################################################
@@ -60,6 +60,8 @@ var loadpage = function(name, data=null){
     // header cannot be removed+added, only manipulated
     $('div[data-role="header"] a[name="left"]').hide();
     $('div[data-role="header"] a[name="right"]').hide();
+
+    console.log("MAIN: load page:", name);
 
     // load new page
     switch (name){

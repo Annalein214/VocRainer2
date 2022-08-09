@@ -22,7 +22,7 @@ var check_login = function(){
 		// if last login too old, log the user out
 		const now=Math.floor(new Date().getTime() / 1000);
 		var lastLogin=parseInt(localStorage.getItem('last_login'));
-		console.log("DEBUG:", now, lastLogin);
+		//console.log("DEBUG:", now, lastLogin);
 		console.log("LOGIN: duration since last time:", (now-lastLogin)/3600, "hours or ", (now-lastLogin)/3600/24, "days");
 		if ((now-lastLogin)>(30*24*60*60)){
 			logout();
