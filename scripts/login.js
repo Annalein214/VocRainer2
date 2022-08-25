@@ -23,7 +23,7 @@ var check_login = function(){
 		const now=Math.floor(new Date().getTime() / 1000);
 		var lastLogin=parseInt(localStorage.getItem('last_login'));
 		//console.log("DEBUG:", now, lastLogin);
-		console.log("LOGIN: duration since last time:", (now-lastLogin)/3600, "hours or ", (now-lastLogin)/3600/24, "days");
+		console.log("LOGIN: duration since last time:", Math.round((now-lastLogin)/3600), "hours or ", Math.round((now-lastLogin)/3600/24), "days");
 		if ((now-lastLogin)>(30*24*60*60)){
 			logout();
 			
@@ -34,16 +34,16 @@ var check_login = function(){
         initialize_website();
     }
     else{
-    	$('#main').empty();
+    	emptyPage();
     	// show login screen and initialize login submit button
     	var loginscreen = '<div class="ui-login">'+
 						'<form id="form-login" method="post"> '+
-		                    '<label for="username">Username:</label>'+
+		                    '<label for="username">Username:</label><br />'+
 		                    '<input type="text" name="username" autofocus />'+
-		                    '<br />'+
-		                    '<label for="password">Password:</label>'+
+		                    '<br /><br />'+
+		                    '<label for="password">Password:</label><br />'+
 		                    '<input type="password" name="password" />'+
-		                    '<br />'+
+		                    '<br /><br />'+
 		                    '<input type="submit" name="userlogin_submit" value="Login" />'+
 		                '</form>'+
 		            '</div>';
@@ -92,6 +92,7 @@ var check_password=function(name, password){
 	});
 }
 
+// #############################################################################
 
 // set global timeout for get/post/ajax
 $.ajaxSetup({

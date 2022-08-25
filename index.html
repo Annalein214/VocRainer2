@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,8 +8,8 @@
     <!--<link rel="apple-touch-icon" href="http://annalein.local/apple-touch-icon.png">
     <link rel="apple-touch-startup-image" href="http://annalein.local/apple-launch-page.png">-->
     <!--<meta name="apple-mobile-web-app-capable" content="yes"> --><!-- hide user interface components -->
-    <!--<meta name="apple-mobile-web-app-status-bar-style" content="black"> --><!-- hide status bar -->
-    <!--<link rel="shortcut icon" href="#"> --><!-- removes "get favicon.ico failed" error  -->
+    <!--<meta name="apple-mobile-web-app-status-bar-style" content="black"> --><!-- hide status bar ---->
+        <link rel="shortcut icon" href="#"> --><!-- removes "get favicon.ico failed" error-->      
     <title>VocRainer v2</title>
     <!--<link rel="stylesheet" href="jquery/jquery.mobile-1.4.0.min.css">-->
     <!-- jquery libraries -->
@@ -18,13 +18,15 @@
     <!--<script src="jquery/jquery.mobile-1.4.0.min.js"></script>-->
     <!-- my code -->
     <link rel="stylesheet" href="style.css">
-    <!--<script src="scripts/helper.js"></script>
-    <script src="scripts/speech.js"></script>
-    <script src="scripts/db.js"></script>
-    <script src="scripts/sync.js"></script>
+    <script src="scripts/helpers.js"></script>
+    <script src="scripts/speak.js"></script>
+    <script src="scripts/quizend.js"></script>
     <script src="scripts/quiz.js"></script>
-    <script src="scripts/voc.js"></script>
-    -->
+    <script src="scripts/quizoral.js"></script>
+    <script src="scripts/quizstart.js"></script>
+    <script src="scripts/word.js"></script>
+    <script src="scripts/words.js"></script>
+    <script src="scripts/lectures.js"></script>
     <script src="scripts/statistics.js"></script>
     <script src="scripts/settings.js"></script>
     <script src="scripts/login.js"></script>
@@ -36,9 +38,9 @@
 <!-- the basic page -->
     <div data-role="page"  class="ui-body-b">
         <div id="header">
-            <div><a href="#"  name="left" style="display: none;">Back</a></div>
+            <div class="ha"><a href="#"  name="left" class="hide">Back</a></div>
             <div class="h1">VocRainer</div>
-            <div><a href="#" name="right" style="display: none;">Add</a></div>
+            <div class="ha"><a href="#" name="right" class="hide">Add</a></div>
         </div>
         <div id="main">
             <!-- content changes all the time, don't save anything here in index.html-->
@@ -47,9 +49,9 @@
             <div id="navbar">
             <ul>
                 <!--<li><a href="#" name="home" data-icon="home" class="ui-btn-active">Home</a></li>-->
-                <li><a href="#"  name="quiz" data-icon="alert">Quiz</a></li> <!-- get more icons: https://demos.jquerymobile.com/1.4.3/navbar/ -->
+                <li><a href="#"  name="quizstart" data-icon="alert">Quiz</a></li> <!-- get more icons: https://demos.jquerymobile.com/1.4.3/navbar/ -->
                 <li><a href="#"  name="vocabulary" data-icon="bullets">Vocabulary</a></li>
-                <li><a href="#"  name="statistics" data-icon="star" class="ui-btn-active">Statistics</a></li>
+                <li><a href="#"  name="statistics" data-icon="star" class="cs_highl_btn">Statistics</a></li>
                 <li><a href="#"  name="settings" data-icon="gear">Settings</a></li>
             </ul>
         </div><!-- /navbar -->
