@@ -13,7 +13,7 @@ var loadpage_settings = function(){
     // TODO Test
     var selected=''; 
     if (localStorage.getItem("readaloud")) selected=' selected=""';
-    $('#main').append('<div class="ui-field-contain">'+
+    $('#main').append('<br /><br /><div class="ui-field-contain">'+
                                     '<label for="readaloud" style="float:left;width: 70% !important;">Read words aloud in quiz:</label>'+
                                         '<select name="readaloud" id="readaloud" data-role="flipswitch">'+
                                             '<option value="off">Off</option>'+
@@ -26,7 +26,7 @@ var loadpage_settings = function(){
     });
 
     // ---------------
-    $('#main').append('<input type="submit" name="user_logout" value="Logout" />');
+    $('#main').append('<br /><br /><input type="submit" name="user_logout" value="Logout" class="btn_fullwidth btn_red" />');
     $('input[name="user_logout"]').click(function(event){            
         logout();
     });
