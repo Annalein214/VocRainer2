@@ -14,7 +14,7 @@ var loadpage_settings = function(){
     var selected=''; 
     if (localStorage.getItem("readaloud")) selected=' selected=""';
     $('#main').append('<br /><br /><div class="ui-field-contain">'+
-                                    '<label for="readaloud" style="float:left;width: 70% !important;">Read words aloud in quiz:</label>'+
+                                    '<label for="readaloud" style="float:left;width: 70% !important;">Read words aloud in Training/Test automatically:</label>'+
                                         '<select name="readaloud" id="readaloud" data-role="flipswitch">'+
                                             '<option value="off">Off</option>'+
                                             '<option value="on" '+selected+'>On</option>'+

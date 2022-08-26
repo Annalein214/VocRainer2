@@ -9,6 +9,10 @@ var loadpage_voc = function(){
 
 	$('#header div.h1').text("Vocabulary");
 
+	$('#header a[name="left"]').text("Search").show().unbind( "click" ).click(function(event){
+		loadpage("search");
+	});
+
 	//------------------
 
 	var choice='<div id="listchoice"><a href="#" id="showTagList" style="float:right;" class="';

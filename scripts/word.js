@@ -1,4 +1,4 @@
-var BACK_TO=0;
+var BACK_TO=0; // see switch below
 
 var loadpage_newword = function(data){
 
@@ -36,6 +36,9 @@ var word_last_page = function(){
 
 	$("#busy").hide();
 	switch(BACK_TO){
+		case 2: 
+			loadpage("search");
+			break;
 		case 1: 
 			loadpage("quiz"); // no data => proceed with quiz
 			break;

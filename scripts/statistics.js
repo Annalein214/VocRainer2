@@ -1,16 +1,17 @@
 var loadpage_statistics = function(){
     $('#header div.h1').text("Statistics");
-    $('#main').append('<h2>Numbers</h2>');
+    $('#main').append('<h2 class="textpink">Numbers</h2>');
     $('#main').append('<div id="stat_words"></div>');
-    $('#main').append('<h2>Graphs</h2>');
+    $('#main').append('<h2 class="textpink">Graphs</h2>');
     
-    $('#main').append('<div><canvas id="wordsPerDay"></canvas></div>');
-    $('#main').append('<div><canvas id="timePerDay"></canvas></div>');
-    $('#main').append('<div><canvas id="levelPerDay4"></canvas></div>');
-    $('#main').append('<div><canvas id="levelPerDay3"></canvas></div>');
-    $('#main').append('<div><canvas id="levelPerDay2"></canvas></div>');
-    $('#main').append('<div><canvas id="levelPerDay1"></canvas></div>');
-    $('#main').append('<div><canvas id="levelPerDay0"></canvas></div>');
+    $('#main').append('<div class="canvas"><canvas id="wordsPerDay"></canvas></div>');
+    $('#main').append('<div class="canvas"><canvas id="timePerDay"></canvas></div>');
+    $('#main').append('<div class="canvas"><canvas id="levelPerDay4"></canvas></div>');
+    $('#main').append('<div class="canvas"><canvas id="levelPerDay3"></canvas></div>');
+    $('#main').append('<div class="canvas"><canvas id="levelPerDay2"></canvas></div>');
+    $('#main').append('<div class="canvas"><canvas id="levelPerDay1"></canvas></div>');
+    $('#main').append('<div class="canvas"><canvas id="levelPerDay0"></canvas></div>');
+    $('#main').append('<div class="stopfloat br"></div>');
 
     $("#busy").show();
 

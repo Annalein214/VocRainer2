@@ -66,6 +66,8 @@ var loadpage = function(name="home", data=null){
     // first empty the page
     emptyPage();
 
+    if (name != "newword" && name != "search") SEARCH='';
+
     // set new page => required for backward functionality of edit_word
     //localStorage.setItem('current_page',name);
     console.log("MAIN: load page:", name);
@@ -99,9 +101,9 @@ var loadpage = function(name="home", data=null){
         case "settings":
             loadpage_settings();
             break
-        /*case "search":
-            loadpage_search(data);
-            break*/
+        case "search":
+            loadpage_search();
+            break
         case "statistics":
         default:
             loadpage_statistics();
