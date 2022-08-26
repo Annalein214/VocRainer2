@@ -58,16 +58,16 @@ function speak(text, language){
       switch (language){
         case "de":
             utterThis.voice = VOICE_DE;
-            utterThis.lang = VOICE_DE.lang;
+            //utterThis.lang = VOICE_DE.lang;
             break;
         case "jp":
             utterThis.voice = VOICE_JP;
-            utterThis.lang = VOICE_JP.lang;
+            //utterThis.lang = VOICE_JP.lang;
             break;
         case "en":
         default:
             utterThis.voice = VOICE_EN;
-            utterThis.lang = VOICE_EN.lang;
+            //utterThis.lang = VOICE_EN.lang;
             break;
       }
 
