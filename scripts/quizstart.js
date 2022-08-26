@@ -36,20 +36,20 @@ var loadpage_quizstart = function(){
 
 
 var show_quiz_settings = function(){
-	var form = '<div><em>Choose settings for quiz</em></div><br /><br />';
+	var form = '';
 	form +='<form id="quizstart">';
-		form +='<label for="nwords">Number of words for quiz:</label><br />';
+		form +='<label for="nwords" class="textpink">Number of words for quiz:</label><br />';
 		form +='<input type="range" name="nwords" value="0" min="0" max="0" style="width:75%"/>';
 		form +='<span id="nwords">0</span><br /><br />';
-		form +='<label for="lectures">Lecture(s):</label>';
+		form +='<label for="lectures" class="textpink">Lecture(s):</label>';
 		form +='<div id="lectures" name="lectures"></div><div style="clear:both;"></div><br /><br />';
-		form +='<label for="tags">Tag(s):</label>';
+		form +='<label for="tags" class="textpink">Tag(s):</label>';
 		form +='<div id="tags" name="tags"></div><div style="clear:both;"></div><br /><br />';
-		form +='<label for="sort">Sort/choose words by:</label><br />';
+		form +='<label for="sort" class="textpink">Sort/choose words by:</label><br />';
 		form +='<input type="radio" name="sort" id="random" value="random"><label for="random">Random</label><br>';
 		form +='<input type="radio" name="sort" id="oldest" value="oldest"><label for="oldest">Oldest Level</label><br>';
 		form +='<input type="radio" name="sort" id="worst" value="worst" checked="checked"><label for="worst">Worst level</label><br><br />';
-		form +='<label for="type">Quiz type:</label><br />';
+		form +='<label for="type" class="textpink">Quiz type:</label><br />';
 		form +='<input type="radio" name="type" id="training" value="training" checked="checked"><label for="training">Training</label><br>';
 		form +='<input type="radio" name="type" id="testing" value="testing"><label for="testing">Testing</label><br>';
 		form +='<input type="radio" name="type" id="oral" value="oral"><label for="oral">Oral only</label><br><br>';
@@ -182,6 +182,7 @@ var getAllQuizSettings = function(){
 
 	if (parseInt(nWords)==0){
 		alert("Please choose a set of words for the quiz.");
+		$("#busy").hide();
 	}
 	else{
 		getQuizWords(nWords, sortby, type, lectures, tags);
