@@ -17,6 +17,8 @@ var loadpage_words = function(data){
 		loadpage("vocabulary", SHOWTAG);
 	});
 
+	$("#busy").show();
+
 }
 
 var load_all_words_from_lec = function(id){
@@ -60,6 +62,7 @@ var show_word_list = function(obj){
 	$('#main ul li a').unbind( "click" ).click(function(event){            
             loadpage("newword",[$(this).attr('data-id'),0]);
     });
+    $("#busy").hide();
 }
 
 

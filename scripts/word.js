@@ -25,6 +25,7 @@ var loadpage_newword = function(data){
 		word_last_page();
 	});
 
+	$("#busy").show();
 	// --- create content
 	load_word(word_id);
 
@@ -32,6 +33,8 @@ var loadpage_newword = function(data){
 
 var word_last_page = function(){
 	console.log("DEBUG LAST PAGE", BACK_TO);
+
+	$("#busy").hide();
 	switch(BACK_TO){
 		case 1: 
 			loadpage("quiz"); // no data => proceed with quiz
@@ -55,6 +58,7 @@ var load_word = function (word_id){
       		show_word_form(fill_word_form, obj);
         }
 	});
+
 }
 
 var show_word_form = function (fct, object){
@@ -127,9 +131,12 @@ var fill_word_form = function (obj){
     for (var i in tags){
         $('#tags input[name="'+tags[i]["TagID"]+'"]').prop('checked', true);
     }   
+    $("#busy").hide();
 }
 
 var get_new_word_properties = function(){
+
+	$("#busy").show();
 
 	var id = $('#form-newword span[name="wordid"]').text();
 	if (id == "") id=0;
@@ -191,6 +198,7 @@ var save_new_word_properties = function(send){
 			if (data.includes("ERROR") || data.includes("Warning") || data.includes("Error") || data.includes("error")){
 				alert("ERROR occured while saving word!",data);
 			}
+
 			word_last_page();
         }
 	});

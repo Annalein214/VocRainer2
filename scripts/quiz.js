@@ -19,6 +19,8 @@ var loadpage_quiz = function (data){
 	$('#header div.h1').text("Quiz");
 
 	$('#header a[name="left"]').text("Quit").show().unbind( "click" ).click(function(event){
+		var endQuizTime= new Date();
+        QUIZDURATION+=(endQuizTime-STARTTIMEQUIZ)/1000;
 		loadpage("quizend");
 	});
 

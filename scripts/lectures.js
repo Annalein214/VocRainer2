@@ -3,6 +3,8 @@ console.log("LEC: initialise SHOWTAG", SHOWTAG);
 
 var loadpage_voc = function(){
 
+	$("#busy").show();
+
 	console.log("LEC:", SHOWTAG, LECID, LECNAME);
 
 	$('#header div.h1').text("Vocabulary");
@@ -84,4 +86,5 @@ var show_list = function(obj, tags=false){
 	$('#main ul li a').unbind( "click" ).click(function(event){            
             loadpage("words",[$(this).attr('data-id'), $(this).attr('data-name'), tags]);
     });
+    $("#busy").hide();
 }

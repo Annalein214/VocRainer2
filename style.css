@@ -16,6 +16,22 @@ a {
 
 /* MAIN ***************************** */
 
+#busy {
+    position: fixed;
+    top: 30%;
+    left: 40%;
+    width: 100px;
+    height: 100px; 
+    background-image: url('./img/busy.gif');
+    background-size: 100px; 
+    filter:alpha(opacity=50);
+    -moz-opacity:0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+    z-index: 10000;
+    display:none
+}
+
 #main {
   padding-top: 40px; /* to avoid overlap with header */
   padding-bottom: 50px; /* to avoid overlap with footer */
