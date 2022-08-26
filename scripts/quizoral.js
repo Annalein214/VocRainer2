@@ -19,7 +19,7 @@ var WORDI = 0;
 var LONGTIMEOUT = 7*1000;
 var SHORTTIMEOUT = 3*1000;
 if (iPhone){ // on iPhone there is a strange delay before giving the German output
-	LONGTIMEOUT = 15*1000;
+	LONGTIMEOUT = 11*1000;
 	SHORTTIMEOUT = 100;
 }
 
@@ -30,8 +30,15 @@ var loadpage_oral = function(data){
 
 	$('#header a[name="left"]').text("Quit").show().unbind( "click" ).click(function(event){
 		var endQuizTime= new Date();
-        QUIZDURATION+=(endQuizTime-STARTTIMEQUIZ)/1000;
+    QUIZDURATION+=(endQuizTime-STARTTIMEQUIZ)/1000;
 		loadpage("quizend");
+	});
+
+	$('#header a[name="right"]').text("Repeat").show().unbind( "click" ).click(function(event){
+		var endQuizTime= new Date();
+    QUIZDURATION+=(endQuizTime-STARTTIMEQUIZ)/1000;
+    WORDI=0;
+		loadpage("oral",data);
 	});
 
 	// right button is "Edit" and changed below in a function
@@ -55,20 +62,28 @@ var showRead_Nword = function(){
 		speak("Ende", "de");
 		var endQuizTime= new Date();
         QUIZDURATION+=(endQuizTime-STARTTIMEQUIZ)/1000;
-		loadpage("quizend");
+		//loadpage("quizend");
 		return;
 	}
 
-	var string = '<div/>Native Word:<br /><span class="textpink">'+QUIZWORDS[WORDI].NWord+'</span></div>';
+	var string = '<div/>'+(WORDI+1)+':<br /><span class="textpink">Native Word:</span><br /><span class="">'+QUIZWORDS[WORDI].NWord+'</span></div>';
 	$('#main').append(string);
 	speak(QUIZWORDS[WORDI].NWord, "de");
 	setTimeout(showRead_Fword, LONGTIMEOUT);
 }
 
 var showRead_Fword = function(){
-	var string = '<div/>Foreign Word:<br /><span class="textpink">'+QUIZWORDS[WORDI].FWord+'</span></div><br /><br />';
+	var string = '<div/><span class="textpink">Foreign Word:</span><br /><span class="">'+QUIZWORDS[WORDI].FWord+'</span></div><br />';
 	$('#main').append(string);
 	speak(QUIZWORDS[WORDI].FWord, "jp");
+	var string = '<div/><span class="textpink">Comment:</span><br /><span class="">'+QUIZWORDS[WORDI].Comment+'</span></div><br /><br />';
+	$('#main').append(string);
+	speak(QUIZWORDS[WORDI].Comment, "de");
 	WORDI++;
 	setTimeout(showRead_Nword, SHORTTIMEOUT);
 }
+
+
+
+
+

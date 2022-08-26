@@ -78,6 +78,7 @@ var evaluateQuiz = function(){
 	//reset
 	QUIZWORDS = [];
 	QUIZDURATION=0;
+	WORDI=0; // for oral training
 }
 
 var saveStatistics = function(learned, duration){
