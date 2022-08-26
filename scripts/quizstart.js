@@ -30,6 +30,7 @@ var loadpage_quizstart = function(){
 		getAllQuizSettings();
 	});
 
+	$("#busy").show();
 	show_quiz_settings();
 }
 
@@ -148,9 +149,12 @@ var add_form_functions = function(){
 		$('#quizstart input[name="nwords"]').on('input', updateSliderText);
 		updateSlider(availWords);
 	});
+
+	$("#busy").hide();
 }
 
 var getAllQuizSettings = function(){
+	$("#busy").show();
 	// get all settings
 	var lectures = [];
 	var tags = [];
@@ -206,7 +210,6 @@ var getQuizWords = function(nWords, sortby, type, lectures, tags){
 			break;
 	}
 
-
 	$.ajax({
 		url: "http://pollmann.co/VocRainer/php/get_quiz_words.php",
 		type:"POST",
@@ -215,6 +218,7 @@ var getQuizWords = function(nWords, sortby, type, lectures, tags){
 			console.log("QUIZ: ",res);
 			var resj = JSON.parse(res);
 			console.log("QUIZ: ",resj.length,"words:",resj[0])
+			$("#busy").hide();
 			if (QUIZTYPE!=2) loadpage("quiz", resj);
 			else loadpage("oral",resj);
         }
