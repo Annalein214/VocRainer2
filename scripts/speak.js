@@ -59,15 +59,18 @@ function speak(text, language){
         case "de":
             utterThis.voice = VOICE_DE;
             //utterThis.lang = VOICE_DE.lang;
+            utterThis.volume = 1;
             break;
         case "jp":
             utterThis.voice = VOICE_JP;
             //utterThis.lang = VOICE_JP.lang;
+            utterThis.volume = 1.5;
             break;
         case "en":
         default:
             utterThis.voice = VOICE_EN;
             //utterThis.lang = VOICE_EN.lang;
+            utterThis.volume = 1;
             break;
       }
 

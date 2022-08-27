@@ -41,6 +41,7 @@ var show_quiz_settings = function(){
 		form +='<label for="nwords" class="textpink">Number of words for quiz:</label><br />';
 		form +='<input type="range" name="nwords" value="0" min="0" max="0" style="width:75%"/>';
 		form +='<span id="nwords">0</span><br /><br />';
+		form +='<label for="offset" class="textpink">Offset: &nbsp;&nbsp;</label><input type="number" name="offset" min="0" max="5" value=0 /><br /><br />';
 		form +='<label for="lectures" class="textpink">Lecture(s):</label>';
 		form +='<div id="lectures" name="lectures"></div><div style="clear:both;"></div><br /><br />';
 		form +='<label for="tags" class="textpink">Tag(s):</label>';
@@ -80,6 +81,7 @@ var updateSlider=function(availWords){
         // update slider and text
         //console.log("UPDATE SLIDER");
         $('#quizstart input[name="nwords"]').attr("max",availWords);
+        $('#quizstart input[name="offset"]').attr("max",availWords);
         $('#quizstart input[name="nwords"]').val(Math.min(availWords, DEFAULTNWORDS));
         $('#quizstart input[name="nwords"]').focus();
         $('#quizstart input[name="nwords"]').blur();
@@ -91,6 +93,7 @@ var updateSliderText=function(event){
         nWords = $('#quizstart input[name="nwords"]').val();
         $('#nwords').text(nWords);
         //console.log(val);
+        $('#quizstart input[name="offset"]').attr("max",availWords-nWords);
     }
     
 
@@ -161,6 +164,7 @@ var getAllQuizSettings = function(){
 	var nWords = $('#quizstart input[name="nwords"]').val();
 	var sortby = $('#quizstart input[name="sort"]:checked').val();
 	var type = $('#quizstart input[name="type"]:checked').val();
+	var offset = $('#quizstart input[name="offset"]').val();
 
 	// collect lectures
 	$('#lectures div').each(function(){
@@ -178,23 +182,24 @@ var getAllQuizSettings = function(){
 		}
 	});
 
-	console.log("QUIZ SETTINGS:", nWords, sortby, type, lectures, tags);
+	console.log("QUIZ SETTINGS:", nWords, sortby, type, lectures, tags, offset);
 
 	if (parseInt(nWords)==0){
 		alert("Please choose a set of words for the quiz.");
 		$("#busy").hide();
 	}
 	else{
-		getQuizWords(nWords, sortby, type, lectures, tags);
+		getQuizWords(nWords, sortby, type, lectures, tags, offset);
 	}
 
 }
 
-var getQuizWords = function(nWords, sortby, type, lectures, tags){
+var getQuizWords = function(nWords, sortby, type, lectures, tags, offset){
 	var data={nWords:nWords, 
 				sortby:sortby, 
 				lectures:lectures,
-				tags:tags};
+				tags:tags,
+				offset:offset};
 
 	switch (type){
         case "training":
