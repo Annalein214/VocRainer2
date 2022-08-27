@@ -58,10 +58,13 @@ var evaluateQuiz = function(){
 			break;
 	}
 
+	updateProgressBar(true); // update value for COMPLETION
+	console.log("DEBUG QUIZEND", COMPLETION);
+
 
 	// print evaluation
 	var string = '<div>';
-		string += 'Quiz completed by <span class="textpink">xx %</span><br /><br />'; // TODO
+		string += 'Quiz completed by <span class="textpink">'+Number(COMPLETION).toFixed(1)+'%</span><br /><br />'; // TODO
 		string += 'Number of words: <span class="textpink">'+all+'</span><br />';
 		if (QUIZTYPE==0) string += 'Perfect answers: <span class="textpink">'+perfect+' ('+(perfect/all*100).toFixed(1)+'%)</span><br />';
 		if (QUIZTYPE<2) string += 'Good answers: &nbsp&nbsp&nbsp<span class="textpink">'+good+' ('+(good/all*100).toFixed(1)+'%)</span><br />';
@@ -79,6 +82,7 @@ var evaluateQuiz = function(){
 	QUIZWORDS = [];
 	QUIZDURATION=0;
 	WORDI=0; // for oral training
+	COMPLETION=0;
 }
 
 var saveStatistics = function(learned, duration){

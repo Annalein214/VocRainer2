@@ -307,6 +307,8 @@ textarea {
 
 /* Quiz ***************************** */
 
+
+
 .bubble{
     float: left;
     background: #F2F2F2;
@@ -415,6 +417,22 @@ textarea {
   height: 4px;
   background-color: black;
   float: left;
+
+  background-image:
+       linear-gradient(green,green),  /* 3 */
+       linear-gradient(yellow,yellow), /* 2 */
+       linear-gradient(orange,orange), /* 1 */
+       linear-gradient(red,red),      /*  0 */
+       linear-gradient(violet,violet), /* -1 */
+       linear-gradient(black, black); /* start */
+     background-size: /* width (cumulative) height, non used colors can stay at 0% */
+       0% 100%,
+       0% 100%,
+       0% 100%,
+       0% 100%,
+       0% 100%,
+       100% 100%;
+     background-repeat:no-repeat;
 }
 
 #progress div[name=value]{
