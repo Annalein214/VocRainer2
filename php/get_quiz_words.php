@@ -1,10 +1,12 @@
 <?php
 
 include('db_connect.php');
-/*$_POST['nWords']=130;
-$_POST['sortby']='worst';
-$_POST['tags']=["1","10"];
-$_POST['lectures']=["1"];*/
+/*$_POST['nWords']=2;
+$_POST['sortby']='random';
+//$_POST['tags']=["1","10"];
+$_POST['lectures']=["20"];
+$_POST['offset']=52;*/
+
 //var_dump($_POST);
 if ( isset($_POST['nWords'])) {
 	
@@ -52,13 +54,20 @@ if ( isset($_POST['nWords'])) {
 		$limit='';
 	}
 
+	if ($_POST['offset']!=0){
+		$offset= 'OFFSET '.$_POST['offset'];
+	}
+	else {
+		$offset='';
+	}
+
 	// ----- query 
 	$sql1 = 'SELECT c.ID ID, a.LecID LecID, b.TagID TagID, c.ChDate ChDate, 
 					c.Level Level, c.ForeignWord ForeignWord, c.NativeWord NativeWord, c.Comment Comment 
 			 FROM voc_lec a, voc c
 			 LEFT JOIN voc_tag b
 			 ON c.ID = b.TagID
-			 WHERE a.VocID=c.ID AND ('.$where.') '.$orderby.' '.$limit;
+			 WHERE a.VocID=c.ID AND ('.$where.') '.$orderby.' '.$limit.' '.$offset;
 
 	$string="[";
 	$counter=0;
