@@ -17,9 +17,18 @@ var DEFAULTNWORDS = 15; // recommended number of words
 var loadpage_quizstart = function(){
 
 	if (QUIZWORDS.length>0){
-		console.log("QUIZSTART: Running Quiz, switch to it");
-		loadpage("quiz");
-		return;
+		console.log("QUIZSTART: Running Quiz, switch to it (if oral: end it)");
+		if (QUIZTYPE==2) {
+			QUIZWORDS = [];
+			QUIZDURATION=0;
+			WORDI=0; // for oral training
+			COMPLETION=0;
+		}
+		else 
+			{
+			loadpage("quiz");
+			return;
+			}
 	}
 
 	// --- Create header
