@@ -4,10 +4,11 @@ var QUIZWORDS = []; // all selected words to be tested, see get_quiz_word.php fo
 var SELECTEDWORDS = []; // sub sample of above words, words to be tested next, chosen by certain algorithm
 var STARTTIMEQUIZ = new Date();
 var QUIZDURATION=0;
+var COMPLETION=0;
 // ------ settings => constants
 var TR_MAX_WORST = 3; // for training mode: max number of words per shuffle round
 var TR_MAX_SELECT = 5; // for training mode: length of SELECTEDWORDS
-var TR_MAX_SUBLEVELS = 4; // start with 0, min is -1, if all correct need TR_MAX_SUBLEVELS-1 times to finalize traing, thus here 3 times
+var TR_MAX_SUBLEVELS = 3; // start with 0, min is -1, if all correct need TR_MAX_SUBLEVELS-1 times to finalize traing, thus here 3 times
 // var MAX_LEVELS = 4; // hard coded!! DB structure depends on it
 var DELTA_LEVEL_PERFECT = 2; // if answered perfectly, raise level by x steps
 
@@ -63,6 +64,7 @@ var show_quiz_word = function(){
 var fill_quiz = function(){
 	console.log("QUIZ fill_quiz");
 	var word = selectWord();
+	updateProgressBar();
 	console.log("QUIZ fill_quiz", word);
 	if (word.ID == 0) {
 		loadpage("quizend");
@@ -228,6 +230,109 @@ var selectTrainingWord = function(){
 	// return first word
 	SELECTEDWORDS[0].Selected = true;
 	return SELECTEDWORDS[0];
+}
+
+// ---------------------------------------------------------------------
+
+
+var updateProgressBar = function(calcOnly=false){
+	switch (QUIZTYPE){
+        case 0: // training
+			return updateProgressBarTraining(calcOnly);
+			break;
+		case 1:
+			return updateProgressBarTest(calcOnly);
+		default:
+			alert('Not implemented');
+			break;
+	}
+
+}
+
+var updateProgressBarTest = function(calcOnly=false){
+	var total=QUIZWORDS.length;
+	var sublevels=Array(3).fill(0); // -1,0,1
+
+	for (var i = 0; i < QUIZWORDS.length; i++) {
+		var index= QUIZWORDS[i].SubLevel
+		if (QUIZWORDS[i].SubLevel==-1) index =  sublevels.length-1;
+		//console.log("DEBUG:", QUIZWORDS[i].SubLevel, index);
+		sublevels[index]+=1;
+	}
+
+	// make percentage
+	var percentage=Array(3).fill(0);
+	for (var i = 0; i < sublevels.length; i++) {
+		percentage[i]=sublevels[i]/total*100;
+	}
+	// sum and round
+	var l1=percentage[1].toFixed(0);
+	var lm1p1=(percentage[1]+percentage[2]).toFixed(0);
+	//console.log("QUIZ: Progress", sublevels, percentage, l1,lm1p1);
+
+	COMPLETION = lm1p1;
+	console.log("QUIZ Progressbar:", COMPLETION, percentage);
+
+	if (!calcOnly){
+		$('#progress div[name="value"]').text(COMPLETION+'%');
+
+		$('#progress div[name="bar"]').css("background-size", l1+'% 100%,'+ // green   +1
+											  '0% 100%,'+ // yellos
+											  '0% 100%, '+ // orange
+											  lm1p1+'% 100%, '+ // red                 -1 (+1)
+											  '0% 100%, '+ // violett
+											  '100% 100%' // black                      0   (rest)
+											  ); 
+	}
+	
+}
+
+var updateProgressBarTraining = function(calcOnly=false){
+	var total=QUIZWORDS.length;
+	var sublevels=Array(TR_MAX_SUBLEVELS+2).fill(0); // if 4: -1,0,1,2,3
+	for (var i = 0; i < QUIZWORDS.length; i++) {
+		var index= QUIZWORDS[i].SubLevel
+		if (QUIZWORDS[i].SubLevel==-1) index =  sublevels.length-1;
+		//console.log("DEBUG:", QUIZWORDS[i].SubLevel, index);
+		sublevels[index]+=1;
+	}
+
+	// make percentage
+	var percentage=Array(3).fill(0);
+	for (var i = 0; i < sublevels.length; i++) {
+		percentage[i]=sublevels[i]/total*100;
+	}
+	// sum and round
+	var l3=percentage[3].toFixed(0);
+	var l32=(percentage[2]+percentage[3]).toFixed(0);
+	var l321=(percentage[1]+percentage[2]+percentage[3]).toFixed(0);
+	var l3210=(percentage[0]+percentage[1]+percentage[2]+percentage[3]).toFixed(0);
+	var l3210m1=(percentage[0]+percentage[1]+percentage[2]+percentage[3]+percentage[4]).toFixed(0);
+
+	//console.log("QUIZ: Progress", sublevels, percentage, l3, l32,l321, l3210,l3210m1);
+
+	
+	COMPLETION = 100-(sublevels[3]*0 + sublevels[2]*1 + sublevels[1]*2 + sublevels[0]*3 + sublevels[4]*4)/(total*TR_MAX_SUBLEVELS+sublevels[4])*100;
+	
+
+	console.log("QUIZ Progressbar:", COMPLETION, total, total*TR_MAX_SUBLEVELS+sublevels[4], 
+									sublevels[3]*0,
+									sublevels[2]*1,
+									sublevels[1]*2,
+									sublevels[0]*3,
+									sublevels[4]*4);
+
+	if (!calcOnly){
+		$('#progress div[name="value"]').text(COMPLETION+'%');
+
+		$('#progress div[name="bar"]').css("background-size", l3+'% 100%,'+ // green    +3   
+											  l32+'% 100%,'+ // yellos					+2
+											  l321+'% 100%, '+ // orange				+1
+											  l3210+'% 100%, '+ // red        			 0
+											  l3210m1+'% 100%, '+ // violett				-1
+											  '100% 100%' // black         				--
+											  ); 
+	}
 }
 
 
