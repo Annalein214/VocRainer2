@@ -31,5 +31,10 @@ var loadpage_settings = function(){
         logout();
     });
 
+    $('#main').append('<br /><br /><input type="submit" name="impressum" value="Show Impressum" class="btn_fullwidth cs_highl_btn" />');
+    $('input[name="impressum"]').click(function(event){            
+        impressum();
+    });
+
 
 }
