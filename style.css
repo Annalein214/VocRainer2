@@ -273,6 +273,8 @@ ul.list a p{
 
 /*#form-newword */
 
+
+
 .labelWithMargin {
   margin-top: 2em;
   display: block;
@@ -305,6 +307,19 @@ textarea {
   margin-bottom: 5px;
 }
 
+#form-login a{
+  font-size: smaller;
+  color: #B40070;
+  text-decoration: none;
+}
+
+#form-login input{
+  width: 300px;
+}
+
+#form-register input{
+ width: 300px;
+}
 /* Quiz ***************************** */
 
 
