@@ -47,7 +47,8 @@ var check_login = function(){
 		                    '<input type="password" name="password" />'+
 		                    '<br /><br />'+
 		                    '<input type="submit" name="userlogin_submit" value="Login" /><br /><br />'+
-		                    '<a href="#" id="register">Register</a> - <a href="#" id="forgot">Forgot password</a>'
+		                    '<a href="#" id="register">Register</a> - <a href="#" id="forgot">Forgot password</a><br /><br />'+
+		                    '<a href="#" id="impressum" style="font-size:smaller; color="white";>Impressum</a>'
 		                '</form>'+
 		            '</div>';
 		$('#main').append(loginscreen);
@@ -60,6 +61,9 @@ var check_login = function(){
         });
         $('#forgot').click(function(event){        
             forgotPassword();
+        });
+        $('#impressum').click(function(event){        
+            impressum();
         });
         $('div[data-role="footer"]').hide();
     }
