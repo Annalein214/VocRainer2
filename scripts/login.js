@@ -10,6 +10,8 @@ if (localStorage.getItem("last_login") === null) {
   localStorage.setItem('last_login',0);
 }
 
+var LOGINEXPIRE = 30*24*60*60; // 30 days
+
 
 
 
@@ -24,7 +26,7 @@ var check_login = function(){
 		var lastLogin=parseInt(localStorage.getItem('last_login'));
 		//console.log("DEBUG:", now, lastLogin);
 		console.log("LOGIN: duration since last time:", Math.round((now-lastLogin)/3600), "hours or ", Math.round((now-lastLogin)/3600/24), "days");
-		if ((now-lastLogin)>(30*24*60*60)){
+		if ((now-lastLogin)>(LOGINEXPIRE)){
 			logout();
 			
 		}
@@ -44,7 +46,8 @@ var check_login = function(){
 		                    '<label for="password">Password:</label><br />'+
 		                    '<input type="password" name="password" />'+
 		                    '<br /><br />'+
-		                    '<input type="submit" name="userlogin_submit" value="Login" />'+
+		                    '<input type="submit" name="userlogin_submit" value="Login" /><br /><br />'+
+		                    '<a href="#" id="register">Register</a> - <a href="#" id="forgot">Forgot password</a>'
 		                '</form>'+
 		            '</div>';
 		$('#main').append(loginscreen);
@@ -52,8 +55,18 @@ var check_login = function(){
             event.preventDefault();    
             login();
         });
+        $('#register').click(function(event){        
+            register();
+        });
+        $('#forgot').click(function(event){        
+            forgotPassword();
+        });
         $('div[data-role="footer"]').hide();
     }
+}
+
+var forgotPassword = function(){
+	alert("This function is not automated yet. Please send a mail to anna@pollmann.co with all information that you can remember. We try to assist as soon as possible.");
 }
 
 var login = function(){
