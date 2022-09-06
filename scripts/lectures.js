@@ -13,6 +13,10 @@ var loadpage_voc = function(){
 		loadpage("search");
 	});
 
+	$('#header a[name="right"]').text("New").show().unbind( "click" ).click(function(event){
+		loadpage("newword", [null,3]); // data: id, back to vocabulary site
+	});
+
 	//------------------
 
 	var choice='<div id="listchoice"><a href="#" id="showTagList" style="float:right;" class="';
@@ -85,7 +89,7 @@ var show_list = function(obj, tags=false){
 		list+='</a></li>'
 	}
 	list += "</ul>";
-	$('#main').append(list);
+	if (CURRENTPAGE=="vocabulary") $('#main').append(list); // to avoid appending to a different site if delayed
 
 	$('#main ul li a').unbind( "click" ).click(function(event){            
             loadpage("words",[$(this).attr('data-id'), $(this).attr('data-name'), tags]);

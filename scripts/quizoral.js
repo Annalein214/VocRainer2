@@ -1,27 +1,4 @@
-function iOS() {
-  return [
-    'iPad Simulator',
-    'iPhone Simulator',
-    'iPod Simulator',
-    'iPad',
-    'iPhone',
-    'iPod'
-  ].includes(navigator.platform)
-  // iPad on iOS 13 detection
-  || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-}
-
-var iPhone = iOS();
-console.log("iPhone", iPhone);
-
-
-var WORDI = 0;
-var LONGTIMEOUT = 7*1000;
-var SHORTTIMEOUT = 3*1000;
-if (iPhone){ // on iPhone there is a strange delay before giving the German output
-	LONGTIMEOUT = 11*1000;
-	SHORTTIMEOUT = 100;
-}
+var WORDI = 0; // iterator
 
 var loadpage_oral = function(data){
 	// --- Create header
@@ -58,7 +35,7 @@ var exe_oral_quiz = function(){
 var showRead_Nword = function(){
 	if (WORDI >= QUIZWORDS.length){
 		var string = '<div/>ENDE</div>';
-		$('#main').append(string);
+		if (CURRENTPAGE=="oral") $('#main').append(string);
 		speak("Ende", "de");
 		var endQuizTime= new Date();
         QUIZDURATION+=(endQuizTime-STARTTIMEQUIZ)/1000;
@@ -67,20 +44,22 @@ var showRead_Nword = function(){
 	}
 
 	var string = '<div/>'+(WORDI+1)+':<br /><span class="textpink">Native Word:</span><br /><span class="">'+QUIZWORDS[WORDI].NWord+'</span></div>';
-	$('#main').append(string);
+	if (CURRENTPAGE=="oral") $('#main').append(string);
 	speak(QUIZWORDS[WORDI].NWord, "de");
-	setTimeout(showRead_Fword, LONGTIMEOUT);
+	var foreigndelay=Number(localStorage.getItem("readForeignDelay"));
+	setTimeout(showRead_Fword, foreigndelay);
 }
 
 var showRead_Fword = function(){
 	var string = '<div/><span class="textpink">Foreign Word:</span><br /><span class="">'+QUIZWORDS[WORDI].FWord+'</span></div><br />';
-	$('#main').append(string);
+	if (CURRENTPAGE=="oral") $('#main').append(string);
 	speak(QUIZWORDS[WORDI].FWord, "jp");
 	var string = '<div/><span class="textpink">Comment:</span><br /><span class="">'+QUIZWORDS[WORDI].Comment+'</span></div><br /><br />';
-	$('#main').append(string);
+	if (CURRENTPAGE=="oral") $('#main').append(string);
 	speak(QUIZWORDS[WORDI].Comment, "de");
 	WORDI++;
-	setTimeout(showRead_Nword, SHORTTIMEOUT);
+	var nativedelay=Number(localStorage.getItem("readNativeDelay"));
+	setTimeout(showRead_Nword, nativedelay);
 }
 
 

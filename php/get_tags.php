@@ -24,8 +24,14 @@ if($result1 = mysqli_query($link, $sql1)){
     					
     				}
     			}
-    			$string=$string.'"Average":"'.($sum_of_levels/$n_words).'"';
+                if ($n_words){
+        			$string=$string.'"Average":"'.($sum_of_levels/$n_words).'"';
+                }
+                else{
+                    echo '<br />ERROR no words found for tag '.$row_lecs["ID"].' '.$row_lecs["Name"].'<br />';
+                }
     			$string=$string."},";
+
     		}
     }
 }

@@ -29,16 +29,54 @@ var loadpage_quiz = function (data){
 
 	if (data!=null) {
 		// start new quiz
-		console.log("QUIZ: start new quiz");
+		console.log("QUIZ: start new quiz with words:", data);
 		QUIZWORDS = data;
+		show_quiz_word();
 	}
 	else{
+		var returning=false;
 		console.log("QUIZ: continue quiz", QUIZWORDS);
+		if (!PREVIOUSPAGE.includes("quiz")) {
+			returning=true; // makes sure that the previous word is shown and not the next one.
+		}
+		show_quiz_word(returning);
 	}
-	show_quiz_word();
+	
 }
 
-var show_quiz_word = function(){
+var updateQuizWord = function(data){
+	// function used in word.js to update data if a word was edited 
+
+	// data {ID:id, Foreign:foreign, Native:native,Comment:comment,LecID:lectureid, Lecture:lecture, Tags:tags}
+	console.log("QUIZ: Update edited word online:", QUIZWORDS.length, data);
+
+	if (QUIZWORDS.length){ // if quiz running
+		for (var i = 0; i < QUIZWORDS.length; i++) {
+			if (QUIZWORDS[i].ID == data.ID){
+				QUIZWORDS[i].LecID = data.LecID;
+				QUIZWORDS[i].FWord = data.Foreign;
+				QUIZWORDS[i].NWord = data.Native;
+				QUIZWORDS[i].Comment = data.Comment;
+				break;
+			}
+		} 
+	}
+	// for training also update
+	if (SELECTEDWORDS.length){ // if quiz running
+		for (var i = 0; i < SELECTEDWORDS.length; i++) {
+			if (SELECTEDWORDS[i].ID == data.ID){
+				SELECTEDWORDS[i].LecID = data.LecID;
+				SELECTEDWORDS[i].FWord = data.Foreign;
+				SELECTEDWORDS[i].NWord = data.Native;
+				SELECTEDWORDS[i].Comment = data.Comment;
+				break;
+			}
+		}
+	} 
+
+}
+
+var show_quiz_word = function(returning=false){
 
 	var string =  '<div id="progress"><div name="bar"></div><div name="value">100%</div></div>';
 		string += '<div id="nword">Native Word</div>';
@@ -51,19 +89,21 @@ var show_quiz_word = function(){
 			string += '<a href="#" name="wrong" class="hide">Wrong</a>';
 		string += '</div>';
 		string += '<div id="slevel" class="furtherInfo">Sublevel: <span></span></div>';
+		string += '<div id="nwrong" class="furtherInfo">Wrong answers: <span></span></div>';
 		string += '<div id="level" class="furtherInfo">Level: <span></span></div>';
-		string += '<div id="nwrong" class="furtherInfo">N x Wrong: <span></span></div>';
 		string += '<div id="wordid" class="furtherInfo">ID: <span></span></div>'
+		string += '<div id="lecture" class="furtherInfo">Lecture: <span></span></div>'
+		string += '<div id="tags" class="furtherInfo">Tags: <span></span></div>'
 		
 
 	$('#main').append(string);
 
-	fill_quiz();
+	fill_quiz(returning);
 }
 
-var fill_quiz = function(){
+var fill_quiz = function(returning=false){
 	console.log("QUIZ fill_quiz");
-	var word = selectWord();
+	var word = selectWord(returning);
 	updateProgressBar();
 	console.log("QUIZ fill_quiz", word);
 	if (word.ID == 0) {
@@ -71,13 +111,20 @@ var fill_quiz = function(){
 		return;
 	}
 
-	$('#nword').text(cunescape(word.NWord));
-	$('#fword').text(cunescape(word.FWord));
-	$('#comment').text(cunescape(word.Comment));
+	console.log("FILLQUIZ:",word, cunescapehtml(word.NWord), cunescapehtml(word.FWord), cunescapehtml(word.Comment));
+
+	$('#nword').html(cunescapehtml(word.NWord));
+	$('#fword').html(cunescapehtml(word.FWord));
+	$('#comment').html(cunescapehtml(word.Comment));
 	$('#slevel span').text(word.SubLevel);
 	$('#level span').text(word.Level);
 	$('#nwrong span').text(word.NWrong);
 	$('#wordid span').text(word.ID);
+	$('#lecture span').text(word.LecName+'('+word.LecID+')');
+	for(var i=0; i<word.TagIDs.length; i++){
+		$('#tags span').append(word.TagNames[i]+' ('+word.TagIDs[i]+'), ');
+	}
+	
 
 	$('#header a[name="right"]').text("Edit").show().unbind( "click" ).click(function(event){
 		var endQuizTime= new Date();
@@ -87,7 +134,8 @@ var fill_quiz = function(){
 
 
 	// once ready
-	if(parseInt(localStorage.getItem("readaloud"))) read_native();
+	var readaloud = parseInt(localStorage.getItem("readaloud"));
+	if(readaloud==1 || readaloud==2) read_native();
 
 	add_quiz_fct();
 
@@ -142,7 +190,8 @@ var add_quiz_fct = function() {
 		$('#buttons a[name="correct"]').show();
 		$('#buttons a[name="wrong"]').show();
 		$('#buttons a[name="show"]').hide();
-		if(parseInt(localStorage.getItem("readaloud"))) read_foreign();
+		var readaloud = parseInt(localStorage.getItem("readaloud"));
+		if(readaloud==1 || readaloud==3) read_foreign();
 	});
 
 }
@@ -163,20 +212,18 @@ var read_foreign=function(){
 // ---------------------------------------------------------------------
 
 
-var selectWord = function (){
+var selectWord = function (returning=false){
 	// implement different test modi
 	// returns a word
 	console.log("QUIZ selectWord");
 
 	switch (QUIZTYPE){
         case 0: // training
-			return selectTrainingWord();
-			break;
+			return selectTrainingWord(returning);
 		case 1:
-			return selectTestingWord();
+			return selectTestingWord(); // returning should work anyway
 		default:
-			alert('Not implemented');
-			break;
+			return;
 	}
 
 }
@@ -191,9 +238,23 @@ var selectTestingWord = function(){
 	return {ID:0,Selected:true}; // return something with ID==0 in order to stop the test
 }
 
-var selectTrainingWord = function(){
+var selectTrainingWord = function(returning=false){
 	console.log("QUIZ selectTrainingWord");
 	// id, selected
+	// if returning, SELECTEDWORDS should always be filled!
+	var lastword='';
+	if (returning){
+		for (var i = 0; i < SELECTEDWORDS.length; i++) {
+			if (!SELECTEDWORDS[i].Selected) {
+				// last lastword was the searched word
+				return lastword;
+			}
+			lastword=SELECTEDWORDS[i];
+		}
+		// the very last entry is the lastword
+		return lastword;
+	}
+
 	for (var i = 0; i < SELECTEDWORDS.length; i++) {
 		if (!SELECTEDWORDS[i].Selected) {
 			SELECTEDWORDS[i].Selected = true;
@@ -239,12 +300,10 @@ var updateProgressBar = function(calcOnly=false){
 	switch (QUIZTYPE){
         case 0: // training
 			return updateProgressBarTraining(calcOnly);
-			break;
 		case 1:
 			return updateProgressBarTest(calcOnly);
 		default:
-			alert('Not implemented');
-			break;
+			return;
 	}
 
 }
@@ -271,10 +330,10 @@ var updateProgressBarTest = function(calcOnly=false){
 	//console.log("QUIZ: Progress", sublevels, percentage, l1,lm1p1);
 
 	COMPLETION = lm1p1;
-	console.log("QUIZ Progressbar:", COMPLETION, percentage);
+	console.log("QUIZ Progressbar:", Number(COMPLETION).toFixed(1), percentage);
 
 	if (!calcOnly){
-		$('#progress div[name="value"]').text(COMPLETION+'%');
+		$('#progress div[name="value"]').text(Number(COMPLETION).toFixed(1)+'%');
 
 		$('#progress div[name="bar"]').css("background-size", l1+'% 100%,'+ // green   +1
 											  '0% 100%,'+ // yellos
@@ -315,7 +374,7 @@ var updateProgressBarTraining = function(calcOnly=false){
 	COMPLETION = 100-(sublevels[3]*0 + sublevels[2]*1 + sublevels[1]*2 + sublevels[0]*3 + sublevels[4]*4)/(total*TR_MAX_SUBLEVELS+sublevels[4])*100;
 	
 
-	console.log("QUIZ Progressbar:", COMPLETION, total, total*TR_MAX_SUBLEVELS+sublevels[4], 
+	console.log("QUIZ Progressbar:", Number(COMPLETION).toFixed(1), total, total*TR_MAX_SUBLEVELS+sublevels[4], 
 									sublevels[3]*0,
 									sublevels[2]*1,
 									sublevels[1]*2,
@@ -323,7 +382,7 @@ var updateProgressBarTraining = function(calcOnly=false){
 									sublevels[4]*4);
 
 	if (!calcOnly){
-		$('#progress div[name="value"]').text(COMPLETION+'%');
+		$('#progress div[name="value"]').text(Number(COMPLETION).toFixed(1)+'%');
 
 		$('#progress div[name="bar"]').css("background-size", l3+'% 100%,'+ // green    +3   
 											  l32+'% 100%,'+ // yellos					+2

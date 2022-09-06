@@ -301,6 +301,10 @@ textarea {
     margin-left:20px;
 }
 
+#theTags div{
+  float: left;
+}
+
 #search {
   width: 95%;
   display: block;

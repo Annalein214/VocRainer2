@@ -28,7 +28,8 @@ $string=$string.'],';
 
 $string=$string.'"Learned": [';
 $sql2='SELECT Day,SUM(Duration) SDuration, SUM(Learned) SLearned, 
-				SUM(L0) SL0, SUM(L1) SL1, SUM(L2) SL2, SUM(L3) SL3, SUM(L4) SL4 FROM quiz GROUP BY Day';
+				L0 SL0, L1 SL1, L2 SL2, L3 SL3, L4 SL4 FROM quiz GROUP BY Day';
+// nimmt ersten eintrag pro tag, TODO: letzten Eintrag oder zumindest für aktuellen Tag den aktuellen Eintrag suchen?
 if($result2 = mysqli_query($link, $sql2)){
   while($row2 = $result2->fetch_assoc()) {
   	$string=$string.'{"Day":"'.$row2["Day"].'", ';
