@@ -78,7 +78,7 @@ if ( isset($_POST['LecID'])) {
 	// first delete all previous connections
 	$sql4 = 'DELETE FROM voc_lec WHERE VocID = "'.$wordID.'"';
 	if ($link->query($sql4) === TRUE) {
-		echo "Deleted all connections of word  '.$wordID.' with lecs. <br />";
+		echo 'Deleted all connections of word  '.$wordID.' with lecs. <br />';
 	}
 	// connect newly
 	$sql4= 'INSERT INTO voc_lec (LecID, VocID) VALUES 
@@ -92,7 +92,7 @@ if ( isset($_POST['LecID'])) {
 	// first delete all previous connections
 	$sql5 = 'DELETE FROM voc_tag WHERE VocID = "'.$wordID.'"';
 	if ($link->query($sql5) === TRUE) {
-		echo "Deleted all connections of word  '.$wordID.' with tags. <br />";
+		echo 'Deleted all connections of word  '.$wordID.' with tags. <br />';
 	}
 	// connect newly
 	if (isset($_POST['Tags'])){ // if no tag is chosen this would fail otherwise

@@ -59,16 +59,15 @@ var evaluateQuiz = function(){
 	}
 
 	updateProgressBar(true); // update value for COMPLETION
-	console.log("DEBUG QUIZEND", COMPLETION);
 
 
 	// print evaluation
 	var string = '<div>';
 		string += 'Quiz completed by <span class="textpink">'+Number(COMPLETION).toFixed(1)+'%</span><br /><br />'; // TODO
-		string += 'Number of words: <span class="textpink">'+all+'</span><br />';
+		string += 'Number of words: &nbsp<span class="textpink">'+all+'</span><br />';
 		if (QUIZTYPE==0) string += 'Perfect answers: <span class="textpink">'+perfect+' ('+(perfect/all*100).toFixed(1)+'%)</span><br />';
-		if (QUIZTYPE<2) string += 'Good answers: &nbsp&nbsp&nbsp<span class="textpink">'+good+' ('+(good/all*100).toFixed(1)+'%)</span><br />';
-		if (QUIZTYPE<2) string += 'Bad answers: &nbsp&nbsp&nbsp&nbsp<span class="textpink">'+bad+' ('+(bad/all*100).toFixed(1)+'%)</span><br /><br />';
+		if (QUIZTYPE<2) string += 'Good answers: &nbsp&nbsp&nbsp&nbsp&nbsp<span class="textpink">'+good+' ('+(good/all*100).toFixed(1)+'%)</span><br />';
+		if (QUIZTYPE<2) string += 'Bad answers: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="textpink">'+bad+' ('+(bad/all*100).toFixed(1)+'%)</span><br /><br />';
 		string += 'Time used: <span class="textpink">'+timeHumanReadable(QUIZDURATION)+'</span><br /><br />'; // TODO
 		string += '</div>';
 
@@ -92,7 +91,7 @@ var saveStatistics = function(learned, duration){
         data:{Learned:learned, Duration:duration},
 		success: function(res){
 			console.log("QUIZEND Statistics: ",res);
-			$('#main').append('<div>Saving Quiz statistics:<br /><span class="textpink">'+ res+'</span></div><br />');
+			if (CURRENTPAGE=="quizend") $('#main').append('<div>Saving Quiz statistics:<br /><span class="textpink">'+ res+'</span></div><br />');
         }
 	});
 }
@@ -104,7 +103,7 @@ var saveOutcome = function(data){
         data:{Data:data},
 		success: function(res){
 			console.log("QUIZEND: ",res);
-			$('#main').append('<div>Saving Quiz outcome:<br /><span class="textpink">'+ res+'</span></div><br />');
+			if (CURRENTPAGE=="quizend")$('#main').append('<div>Saving Quiz outcome:<br /><span class="textpink">'+ res+'</span></div><br />');
         }
 	});
 }

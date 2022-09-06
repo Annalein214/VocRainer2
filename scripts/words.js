@@ -17,6 +17,10 @@ var loadpage_words = function(data){
 		loadpage("vocabulary", SHOWTAG);
 	});
 
+	$('#header a[name="right"]').text("New").show().unbind( "click" ).click(function(event){
+		loadpage("newword",); // data [null, 0] -> id, go_back_to -> new word, "words"
+	});
+
 	$("#busy").show();
 
 }
@@ -57,7 +61,7 @@ var show_word_list = function(obj){
 		list+='</a></li>'
 	}
 	list += "</ul>";
-	$('#main').append(list);
+	if (CURRENTPAGE=="words") $('#main').append(list);
 
 	$('#main ul li a').unbind( "click" ).click(function(event){            
             loadpage("newword",[$(this).attr('data-id'),0]);

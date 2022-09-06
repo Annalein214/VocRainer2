@@ -1,9 +1,5 @@
-/*if (localStorage.getItem("current_page") === null) {
-  localStorage.setItem('current_page','statistics'); 
-}
-if (localStorage.getItem("last_page") === null) {
-  localStorage.setItem('current_page','statistics'); 
-}*/
+var CURRENTPAGE="home";
+var PREVIOUSPAGE="home";
 
 // ############################################################################
 // Main code to start the app
@@ -65,6 +61,9 @@ var loadpage = function(name="home", data=null){
 
     // first empty the page
     emptyPage();
+
+    PREVIOUSPAGE=CURRENTPAGE;
+    CURRENTPAGE=name;
 
     if (name != "newword" && name != "search") SEARCH='';
 

@@ -23,7 +23,7 @@ var getQuizInfo = function (){
         url: "http://pollmann.co/VocRainer/php/get_quiz_statistics.php",
         type:"POST",
         success: function(data){
-            console.log("DEBUG: ", data);
+            //console.log("DEBUG: ", data);
             const obj = JSON.parse(data);
             fillStatisticsPage(obj);
         }
@@ -48,7 +48,7 @@ var fillStatisticsPage = function(obj){
     for (var i = 0; i < learned.length; i++) { 
          labels.push(learned[i].Day);
          lea.push(learned[i].Learned);
-         dur.push(learned[i].Duration);
+         dur.push(learned[i].Duration/60); // sek -> min
     }
 
     fillWordsGraph(labels, lea);
@@ -66,7 +66,6 @@ var fillLevelGraph = function(count, obj){
          labels.push(learned[i].Day);
          values.push(learned[i]["L"+count]);
     }
-
 
     colors=['rgb(128, 0, 14)', 'rgb(168, 39, 0)', 'rgb(255, 220, 0)', 'rgb(0, 179, 20)', 'rgb(0, 173, 172)'];
 

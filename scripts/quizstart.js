@@ -98,12 +98,7 @@ var updateSlider=function(availWords){
         $('#nwords').text(Math.min(availWords, DEFAULTNWORDS));
     }
 
-var updateSliderText=function(event){
-        nWords = $('#quizstart input[name="nwords"]').val();
-        $('#nwords').text(nWords);
-        //console.log(val);
-        $('#quizstart input[name="offset"]').attr("max",availWords-nWords);
-    }
+
     
 
 var add_form_functions = function(){
@@ -111,6 +106,13 @@ var add_form_functions = function(){
 	var availWords = 0;
 	var lectures = [];
 	var tags = [];
+
+	var updateSliderText=function(event){
+        nWords = $('#quizstart input[name="nwords"]').val();
+        $('#nwords').text(nWords);
+        //console.log(val);
+        $('#quizstart input[name="offset"]').attr("max",availWords-nWords);
+    }
 
 	
 
@@ -232,7 +234,7 @@ var getQuizWords = function(nWords, sortby, type, lectures, tags, offset){
 		success: function(res){
 			console.log("QUIZ: ",res);
 			var resj = JSON.parse(res);
-			console.log("QUIZ: ",resj.length,"words:",resj[0])
+			console.log("QUIZ: ",resj.length,"words:",resj)
 			$("#busy").hide();
 			if (QUIZTYPE!=2) loadpage("quiz", resj);
 			else loadpage("oral",resj);

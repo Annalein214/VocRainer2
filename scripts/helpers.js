@@ -1,3 +1,19 @@
+function iOS() {
+  return [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ].includes(navigator.platform)
+  // iPad on iOS 13 detection
+  || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+}
+
+var iPhone = iOS();
+console.log("Device is iPhone?", iPhone); //true/false
+
 
 var shuffle = function (array) {
   // randomize order in array
@@ -57,6 +73,16 @@ var cescape = function(string){
 
 var cunescape = function(string){
 	return string.replace(/\\n/g, "\n").replace(/\\r/g, "\r");
+}
+
+var cunescapehtml = function(string){
+    var newstring=string.replace(/\n/g, "<br />")
+                 .replace(/\\\\n/g, "<br />")
+                 .replace(/\\n/g, "<br />")
+                 .replace(/\\\\r/g, "<br />")
+                 .replace(/\\r/g, "<br />");
+    //console.log("cunescapehtml", string, newstring);
+    return newstring;
 }
 
 // for situations where you want to have only one line and no line break

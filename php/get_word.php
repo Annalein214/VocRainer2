@@ -10,19 +10,21 @@ if ( isset($_POST['WordID'])) {
 	// get word info
 	$string="";
 
-	// ----------------------------
-	$sql1 = 'SELECT ID, ChDate, Level, ForeignWord, NativeWord, Comment 
-		     FROM voc 
-		     WHERE ID = "'.$_POST['WordID'].'"
-		     LIMIT 1';
-	if($result1 = mysqli_query($link, $sql1)){
-		$row = $result1->fetch_assoc();
-	    $string=$string.'{"ID":"'.$row["ID"].'", 
-			  "ChDate":"'.$row["ChDate"].'",
-			  "Level":"'.$row["Level"].'",
-			  "ForeignWord":"'.$row["ForeignWord"].'",
-			  "NativeWord":"'.$row["NativeWord"].'",
-			  "Comment":"'.$row["Comment"].'",';
+	if ($_POST['WordID']!=0){
+		// ----------------------------
+		$sql1 = 'SELECT ID, ChDate, Level, ForeignWord, NativeWord, Comment 
+			     FROM voc 
+			     WHERE ID = "'.$_POST['WordID'].'"
+			     LIMIT 1';
+		if($result1 = mysqli_query($link, $sql1)){
+			$row = $result1->fetch_assoc();
+		    $string=$string.'{"ID":"'.$row["ID"].'", 
+				  "ChDate":"'.$row["ChDate"].'",
+				  "Level":"'.$row["Level"].'",
+				  "ForeignWord":"'.$row["ForeignWord"].'",
+				  "NativeWord":"'.$row["NativeWord"].'",
+				  "Comment":"'.$row["Comment"].'",';
+		}
 	}
 	// ----------------------------
 	
