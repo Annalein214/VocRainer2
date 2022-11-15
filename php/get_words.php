@@ -12,14 +12,14 @@ if ( isset($_POST['LecID']) OR isset($_POST['TagID'])) {
 			     FROM voc_lec a, voc b 
 			     WHERE a.VocID = b.ID 
 			     	AND LecID = "'.$_POST['LecID'].'"
-			     ORDER BY b.ForeignWord';
+			     ORDER BY b.NativeWord';
 	}
 	else {
 		$sql1 = 'SELECT b.ID ID, b.ChDate ChDate, b.Level Level, b.ForeignWord FWord, b.NativeWord NWord, b.Comment Comment 
 			     FROM voc_tag a, voc b 
 			     WHERE a.VocID = b.ID 
 			     	AND TagID = "'.$_POST['TagID'].'"
-			     ORDER BY b.ForeignWord';
+			     ORDER BY b.NativeWord';
 	}
 
 

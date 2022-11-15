@@ -1,7 +1,10 @@
-var BACK_TO=0; // see switch below
+var BACK_TO=0; // see switch below in word_last_page
 
 var loadpage_newword = function(data){
+	// setup page header and its functionality
+	// execute functions to fill the main part of the page
 
+	$("#busy").show();
 	
 	if (data!=null){
 		var word_id = data[0];
@@ -9,6 +12,7 @@ var loadpage_newword = function(data){
 	}
 	else{
 		var word_id=0;
+		// do not set BACK_TO, it should have been set before
 	}
 
 	console.log("WORD:", SHOWTAG, LECID, LECNAME, data, word_id);
@@ -33,13 +37,16 @@ var loadpage_newword = function(data){
 		word_last_page();
 	});
 
-	$("#busy").show();
+	
 	// --- create content
 	load_word(word_id);
 
 }
 
 var word_last_page = function(){
+	// logic to determine where the back button should lead to
+	// uses the global BACK_TO variable for its decision
+
 	//console.log("DEBUG LAST PAGE", BACK_TO);
 
 	$("#busy").hide();
@@ -60,7 +67,12 @@ var word_last_page = function(){
 	}
 }
 
+// #####################################################################
+// build form and its functionality 
+
 var load_word = function (word_id){
+	// if word should be edited, load its data
+	// if not, just proceed to next function
 	if (word_id){
 		$.ajax({
 			url: "http://pollmann.co/VocRainer/php/get_word.php",
@@ -75,17 +87,22 @@ var load_word = function (word_id){
 		});
 	}
 	else show_word_form(null, null);
-
 }
 
-var show_word_form = function (fct, object){
+var show_word_form = function (fct, object){ 
+	// this function creates a form and fills it with default options
+	// and activates functionality
+	// this function has some nested sub-functions in order to make sure that all 
+	// form parts are loaded before proceeding to load functionality
+	// if an existing word shall be edited, need to execute fct 
+	// with the data in obj after this function
 
 	var form = '<form id="form-newword" method="post">';
 				form+='<label class="labelWithMargin" for="foreign">Foreign word:</label><textarea name="foreign" lang="ja"></textarea>';
 				form+='<label class="labelWithMargin" for="native">Native word:</label><textarea name="native" lang="de"></textarea>';
 				form+='<label class="labelWithMargin" for="comment">Comment:</label><textarea name="comment" lang="de"></textarea>';
     			form+='<label class="labelWithMargin" for="lecture">Lecture:</label>';
-    				form+='<select name="lecture"><option value=""></option><option value="add_new_lecture">Add new lecture ...</option></select>';
+    				form+='<select name="lecture"><option value="">Choose a lecture ...</option><option value="add_new_lecture">Add new lecture ...</option></select>';
     			form+='<div id="newlecture" class="hide">';
     				form+='<br /><label for="newlecture">New lecture name:</label><input type="text" name="newlecture"></input></div>';
 			    form+='<fieldset id="tags"><legend>Tags:</legend><div id="theTags"><div><input type="checkbox" name="add_new_tags"><label for="add_new_tags" class="textpink">Add new Tag</label></div></div><div class="stopfloat"></div>';
@@ -106,8 +123,20 @@ var show_word_form = function (fct, object){
 	    if (fct) fct(object); // needs to be loaded here, otherwise the values are not shown
 
 	    // --------------------
-		// add default lecture if no quiz is running
-		if (SHOWTAG==false && QUIZWORDS.length==0) $('#form-newword select[name="lecture"]').val(LECID).change();
+		// add default lecture if no quiz is running and not using the search
+		console.log("NEWWORD: change to default lecture", LECID, SHOWTAG, QUIZWORDS.length, BACK_TO);
+		if (SHOWTAG==false && QUIZWORDS.length==0 && BACK_TO==0) {
+			console.log("DEBUG", LECID);
+			$('#form-newword select[name="lecture"]').val(LECID).change();
+		}
+		console.log("NEWWORD: ready loading 1");
+		if (!object){
+			// this is the end of this function
+			// if a new word is requested, no further data needs to be loaded
+
+			$("#busy").hide();
+			console.log("BUSY HIDE");
+		}
 	}
 
 	var il_fill_tags = function(obj){
@@ -117,7 +146,7 @@ var show_word_form = function (fct, object){
 	    load_all_lec_or_tags(il_fill_lectures, false); // needs to be nested, so that all options are loaded before the actual values are filled.
 		// --------------------
 		// add default tag
-		if (SHOWTAG==true && QUIZWORDS.length==0 ) $('#tags input[name="'+LECID+'"]').prop('checked', true);
+		if (SHOWTAG==true && QUIZWORDS.length==0 && BACK_TO!=2) $('#tags input[name="'+LECID+'"]').prop('checked', true);
 	}
 	load_all_lec_or_tags(il_fill_tags, true);
 
@@ -141,19 +170,16 @@ var show_word_form = function (fct, object){
             }
     });	
 
+    // if a word is edited provide deletion etc.
     if (object){
 	    $('input[name="deleteword"]').click(function(event){            
 	        deleteWord(object["ID"]);
 	    });    
 	}
-	else{
-		$("#busy").hide();
 	}
 
-
-}
-
-
+// #####################################################################
+// edit word (show current data)
 
 var fill_word_form = function (obj){
 	// needs to be the very last thing on the site to be loaded! Therefore use nested functions above
@@ -163,7 +189,18 @@ var fill_word_form = function (obj){
     $('#form-newword textarea[name="comment"]').val(cunescape(obj["Comment"]));
     $('#form-newword span[name="wordid"]').text(obj["ID"]);
 
+    // sometimes lecture is empty when word is accessed from search. The following seems to fix it.
+    // I think the reason was fighting with the LECID setting in the other function, disabled it there for searches now
+    console.log("WORD filling lecture ID:", obj["LectureID"], $('#form-newword select[name="lecture"]').val());
     $('#form-newword select[name="lecture"]').val(obj["LectureID"]).change();
+    var check = $('#form-newword select[name="lecture"]').val();
+    if (check!=obj["LectureID"]){
+    	console.log("WORD: try again!");
+    	$('#form-newword select[name="lecture"]').val(obj["LectureID"]).change();
+    }
+
+    //console.log("DEBUG2:", obj["LectureID"], $('#form-newword select[name="lecture"]').val());
+
 
     var tags=obj["Tags"];
     for (var i in tags){
@@ -171,6 +208,9 @@ var fill_word_form = function (obj){
     }   
     $("#busy").hide();
 }
+
+// #####################################################################
+// save new word
 
 var get_new_word_properties = function(){
 
@@ -186,10 +226,10 @@ var get_new_word_properties = function(){
     // ---------------------
     // get a pre defined lecture
 	var lectureid = $('#form-newword select[name="lecture"]').val();
-	var lecture = lectureid;
+	var lecture=$('#form-newword select[name="lecture"] option:selected').text();
 	// get a newly defined lecture
 	if (lectureid=="add_new_lecture"){
-        var lecture=$('#newlecture input').val();
+        lecture=$('#newlecture input').val();
     }
     if (lecture=="") {
     	$("#busy").hide();
@@ -199,11 +239,12 @@ var get_new_word_properties = function(){
 
     // ---------------------
 	// get all pre defined tags
-	var tags=[];
+	var tags=[]; // array of [id,name]
+	var tagnames=[];
 	var checkNewTags=false;
     $(':checkbox').each(function() {
         if (this.checked){
-            tags.push([this.name, ""]); // id
+            tags.push([this.name, $(this).next('label').text()]); // id
             if (this.name == "add_new_tags") checkNewTags=true;
         }
     });
@@ -223,7 +264,14 @@ var get_new_word_properties = function(){
 	}
 
 
-	save_new_word_properties({ID:id, Foreign:foreign, Native:native,Comment:comment,LecID:lectureid, Lecture:lecture, Tags:tags});
+	save_new_word_properties({ID:id, 
+							  Foreign:foreign, 
+							  Native:native,
+							  Comment:comment,
+							  LecID:lectureid, 
+							  Lecture:lecture, // new lecture name or existing lecture 
+							  Tags:tags, // array of [id,name]
+							});
 }
 
 
@@ -247,6 +295,9 @@ var save_new_word_properties = function(send){
         }
 	});
 }
+
+// #####################################################################
+// delete word
 
 var deleteWord = function(id){
 	console.log("WORD: delete", id); 
