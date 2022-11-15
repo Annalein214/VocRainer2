@@ -6,9 +6,10 @@ tags (words / mean level)
 sort by/choose by
 
 type of test: 
-- oral only (reading aloud, no test)
-- training (every word 3 times)
-- testing (good words only 1 time)
+- 2 oral only (reading aloud, no test)
+- 0 training (every word 3 times)
+- 1 testing (good words only 1 time)
+- 3 spelling (words like testing)
 */
 
 var DEFAULTNWORDS = 15; // recommended number of words
@@ -62,6 +63,7 @@ var show_quiz_settings = function(){
 		form +='<label for="type" class="textpink">Quiz type:</label><br />';
 		form +='<input type="radio" name="type" id="training" value="training" checked="checked"><label for="training">Training</label><br>';
 		form +='<input type="radio" name="type" id="testing" value="testing"><label for="testing">Testing</label><br>';
+		form +='<input type="radio" name="type" id="spelling" value="spelling"><label for="spelling">Spelling</label><br>';
 		form +='<input type="radio" name="type" id="oral" value="oral"><label for="oral">Oral only</label><br><br>';
 	form +='</form>';
 
@@ -222,6 +224,9 @@ var getQuizWords = function(nWords, sortby, type, lectures, tags, offset){
 		case 'oral':
 			QUIZTYPE = 2;
 			break;
+		case "spelling":
+			QUIZTYPE = 3; 
+			break
 		default: //"training":
 			QUIZTYPE = 0;
 			break;
