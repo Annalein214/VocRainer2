@@ -19,21 +19,22 @@ var evaluateQuiz = function(){
 
 	// set level and count good/bad answers
 	switch (QUIZTYPE){
-		case 0:
+		case 0: // training
 			for (var i = 0; i < all; i++) {
 				if (QUIZWORDS[i].SubLevel == TR_MAX_SUBLEVELS){
 					if (QUIZWORDS[i].NWrong == 0){
 						// if DELTA_LEVEL_PERFECT != 1, have a bigger step for perfect answers
-						QUIZWORDS[i].Level = Math.min(QUIZWORDS[i].Level+DELTA_LEVEL_PERFECT, 4);
+						QUIZWORDS[i].Level = Math.min(parseInt(QUIZWORDS[i].Level)+DELTA_LEVEL_PERFECT, 4);
 						perfect++;
 					}
 					else {
-						QUIZWORDS[i].Level = Math.min(QUIZWORDS[i].Level+1, 4);
+						QUIZWORDS[i].Level = Math.min(parseInt(QUIZWORDS[i].Level)+1, 4);
 						good++;
 					}
 				}
-				else if (QUIZWORDS[i].SubLevel == -1 ||  QUIZWORDS[i].SubLevel == 0){ // not customizable because -1 and 0 really mean a bad answer!
-					QUIZWORDS[i].Level = Math.max(QUIZWORDS[i].Level-1, 0);
+				else if (parseInt(QUIZWORDS[i].SubLevel) == -1 ||  parseInt(QUIZWORDS[i].SubLevel) == 0){ 
+					// not customizable because -1 and 0 really mean a bad answer!
+					QUIZWORDS[i].Level = Math.max(parseInt(QUIZWORDS[i].Level)-1, 0);
 					bad++;
 				}
 				// else: dont change level
@@ -41,20 +42,24 @@ var evaluateQuiz = function(){
 				data.push({ID:QUIZWORDS[i].ID,Level:QUIZWORDS[i].Level});
 			}
 			break;
-		case 1:
+		case 1: // testing
 			for (var i = 0; i < all; i++) {
 				if (QUIZWORDS[i].SubLevel == 1){
-					QUIZWORDS[i].Level = Math.min(QUIZWORDS[i].Level+1, 4);
+					console.log("DEBUGx:", QUIZWORDS[i].NWord,QUIZWORDS[i].Level, Math.min(QUIZWORDS[i].Level+1, 4));
+					QUIZWORDS[i].Level = Math.min(parseInt(QUIZWORDS[i].Level)+1, 4);
+					console.log("DEBUGx:", QUIZWORDS[i].NWord,QUIZWORDS[i].Level);
 					good++;
 				}
 				else if (QUIZWORDS[i].SubLevel == -1){
-					QUIZWORDS[i].Level = Math.max(QUIZWORDS[i].Level-1, 0);
+					console.log("DEBUGx2:", QUIZWORDS[i].NWord,QUIZWORDS[i].Level, Math.max(QUIZWORDS[i].Level-1, 0));
+					QUIZWORDS[i].Level = Math.max(parseInt(QUIZWORDS[i].Level)-1, 0);
+					console.log("DEBUGx2:", QUIZWORDS[i].NWord,QUIZWORDS[i].Level);
 					bad++;
 				}
 				data.push({ID:QUIZWORDS[i].ID,Level:QUIZWORDS[i].Level});
 			}
 			break;
-		case 2:
+		case 2: // oral -> nothing to save
 			break;
 	}
 
