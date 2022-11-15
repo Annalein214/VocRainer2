@@ -3,6 +3,8 @@ console.log("LEC: initialise SHOWTAG", SHOWTAG);
 
 var loadpage_voc = function(){
 
+	BACK_TO = 3;
+
 	$("#busy").show();
 
 	console.log("LEC:", SHOWTAG, LECID, LECNAME);

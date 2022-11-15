@@ -29,9 +29,8 @@ var loadpage_newword = function(data){
 		$('#header div.h1').text("Edit word"); 
 	}
 
-	$('#header a[name="right"]').text("Save").show().unbind( "click" ).click(function(event){
-		get_new_word_properties();
-	});
+	enableSaveButton();
+
 	$('#header a[name="left"]').text("Back").show().unbind( "click" ).click(function(event){
 		//var currentpage=localStorage.getItem("current_page");
 		word_last_page();
@@ -41,6 +40,13 @@ var loadpage_newword = function(data){
 	// --- create content
 	load_word(word_id);
 
+}
+
+var enableSaveButton = function(){
+	$('#header a[name="right"]').text("Save").show().unbind( "click" ).click(function(event){
+		$('#header a[name="right"]').unbind( "click" ).attr("disabled", true); // disable button to prevent bug that 2 entries are created
+		get_new_word_properties();
+	});
 }
 
 var word_last_page = function(){
@@ -231,9 +237,10 @@ var get_new_word_properties = function(){
 	if (lectureid=="add_new_lecture"){
         lecture=$('#newlecture input').val();
     }
-    if (lecture=="") {
+    if (lecture=="" || lecture.includes("Choose a lecture")) {
     	$("#busy").hide();
         alert("Lecture may not be empty. Please choose a lecture.");
+        enableSaveButton(); // enable disabled button again, disabling prevents getting 2 entries for one word
         return;
     }
 
