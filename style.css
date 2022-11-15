@@ -153,6 +153,7 @@ a {
   border: 1px solid black;
 }
 
+
 .cs_highl_btn{
     background:  #76084B !important;
 }
@@ -294,6 +295,9 @@ textarea {
 
 [type="text"] {
     width: 30em;
+    color: white;
+    background-color: #161616;
+    border: 1px solid black;
 }
 
 [type="checkbox"] {
@@ -312,7 +316,7 @@ textarea {
 }
 
 #form-login a{
-  font-size: smaller;
+  font-size: small;
   color: #B40070;
   text-decoration: none;
 }
@@ -359,6 +363,18 @@ textarea {
   border: 1px solid black;
 }
 
+#speltword {
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-size: large;
+
+}
+
 #nword {
   width: 80%;
   color: #B40070;
@@ -378,15 +394,22 @@ textarea {
   margin-top: 5px;
   text-align: center;
   color:  #3E4040;
-  font-size: smaller;
+  font-size: small;
   font-style: italic;
   
 }
+
+
 
 #buttons {
   width: 100%;
   text-align: center;
   margin-top: 25px;
+}
+
+#checkresult {
+  width: 100%;
+  text-align: center;
 }
 
 #buttons a {
@@ -399,6 +422,14 @@ textarea {
 
 #buttons a[name="show"] {
   background:  #76084B;
+}
+
+#buttons a[name="check"] {
+  background:  #76084B;
+}
+
+#buttons a[name="proceed"] {
+  background:  white;
 }
 
 #buttons a[name="read"] {
@@ -419,7 +450,7 @@ textarea {
 
 .furtherInfo {
   color:  #3E4040;
-  font-size: smaller;
+  font-size: small;
   font-style: italic;
 }
 

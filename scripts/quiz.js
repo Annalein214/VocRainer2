@@ -1,5 +1,5 @@
 // non constant variables for quiz
-var QUIZTYPE = 0; // 0 Training, 1 Testing, 2 Oral
+var QUIZTYPE = 0; // 0 Training, 1 Testing, 2 Oral, 3 Spelling
 var QUIZWORDS = []; // all selected words to be tested, see get_quiz_word.php for shape
 var SELECTEDWORDS = []; // sub sample of above words, words to be tested next, chosen by certain algorithm
 var STARTTIMEQUIZ = new Date();
@@ -26,6 +26,7 @@ var loadpage_quiz = function (data){
 	});
 
 	// right button is "Edit" and changed below in a function
+	console.log("QUIZ: start quiz of type", QUIZTYPE);
 
 	if (data!=null) {
 		// start new quiz
@@ -100,13 +101,27 @@ var show_quiz_word = function(returning=false){
 
 	var string =  '<div id="progress"><div name="bar"></div><div name="value">100%</div></div>';
 		string += '<div id="nword">Native Word</div>';
+
+		if (QUIZTYPE == 3){ // spelling
+			string += '<input type="text" name="speltword" id="speltword" placeholder="Spell the translated word here. Use dictionary form of verb. Use either furigana or kanji." />';
+			string +='<div id="checkresult" class="hide"></div><br />';
+		}
+
 		string += '<div id="fword" class="hide">Foreign Word</div>';
 		string += '<div id="comment" class="hide">Comment</div>';
 		string += '<div id="buttons">';
-			string +='<a href="#" name="read" class="hide">Read</a><br /><br />';
-			string +='<a href="#" name="show">Show</a>';
-			string += '<a href="#" name="correct" class="hide">Correct</a>';
-			string += '<a href="#" name="wrong" class="hide">Wrong</a>';
+			if (QUIZTYPE == 3){ // spelling
+				string +='<a href="#" name="check">Check</a>';
+				string +='<a href="#" name="read" class="hide">Read</a>';
+				string +='<a href="#" name="proceed" class="hide">Proceed</a>';
+			}
+			else{
+				string +='<a href="#" name="show">Show</a>';
+				string +='<a href="#" name="read" class="hide">Read</a><br /><br />';
+				string += '<a href="#" name="correct" class="hide">Correct</a>';
+				string += '<a href="#" name="wrong" class="hide">Wrong</a>';
+			}
+
 		string += '</div>';
 		string += '<div id="slevel" class="furtherInfo">Sublevel: <span></span></div>';
 		string += '<div id="nwrong" class="furtherInfo">Wrong answers: <span></span></div>';
@@ -173,33 +188,60 @@ var add_quiz_fct = function() {
 	});
 
 	$('#buttons a[name="correct"]').click(function(event){ 
+		// check all words, if current word found, adjust level
 		for (var i = 0; i < QUIZWORDS.length; i++) {
 			if (id==QUIZWORDS[i].ID) {
 				if (parseInt(QUIZWORDS[i].SubLevel)<TR_MAX_SUBLEVELS) QUIZWORDS[i].SubLevel=parseInt(QUIZWORDS[i].SubLevel)+1;
 				break;
 			}
 		}
-		//console.log("DEBUG1", QUIZWORDS);
+		// handle quiz duration
 		var endQuizTime= new Date();
         QUIZDURATION+=(endQuizTime-STARTTIMEQUIZ)/1000;
+        // load new quiz word
 		loadpage("quiz");
 	});
 
 	$('#buttons a[name="wrong"]').click(function(event){ 
+		// check all words, if current word found, adjust level and number of wrong attempts
 		for (var i = 0; i < QUIZWORDS.length; i++) {
 			if (id==QUIZWORDS[i].ID) {
 				if (parseInt(QUIZWORDS[i].SubLevel)>-1) {
 					QUIZWORDS[i].SubLevel=parseInt(QUIZWORDS[i].SubLevel)-1;
 				}
-				//console.log("DEBUG2", parseInt(QUIZWORDS[i].NWrong));
 				QUIZWORDS[i].NWrong=parseInt(QUIZWORDS[i].NWrong)+1;
-				//console.log("DEBUG2", parseInt(QUIZWORDS[i].NWrong));
 				break;
 			}
 			
 		}
 		var endQuizTime= new Date();
         QUIZDURATION+=(endQuizTime-STARTTIMEQUIZ)/1000;
+		loadpage("quiz");
+	});
+
+	$('#buttons a[name="proceed"]').click(function(event){ 
+		var wrong = $('#checkresult').text().includes("Wrong");
+		console.debug("DEBUG: Wrong answer?", wrong);
+		// check all words, if current word found, adjust level and number of wrong attempts
+		for (var i = 0; i < QUIZWORDS.length; i++) {
+			if (id==QUIZWORDS[i].ID) {
+				if (!wrong){
+					if (parseInt(QUIZWORDS[i].SubLevel)<TR_MAX_SUBLEVELS) QUIZWORDS[i].SubLevel=parseInt(QUIZWORDS[i].SubLevel)+1;
+				}
+				else{
+					if (parseInt(QUIZWORDS[i].SubLevel)>-1) {
+						QUIZWORDS[i].SubLevel=parseInt(QUIZWORDS[i].SubLevel)-1;
+					}
+				}
+				QUIZWORDS[i].NWrong=parseInt(QUIZWORDS[i].NWrong)+1;
+				break;
+			}
+			
+		}
+		// handle quiz duration
+		var endQuizTime= new Date();
+        QUIZDURATION+=(endQuizTime-STARTTIMEQUIZ)/1000;
+        // load new quiz word
 		loadpage("quiz");
 	});
 
@@ -214,6 +256,36 @@ var add_quiz_fct = function() {
 		if(readaloud==1 || readaloud==3) read_foreign();
 	});
 
+	$('#buttons a[name="check"]').click(function(event){ 
+		$('#fword').show();
+		$('#comment').show();
+		$('#buttons a[name="read"]').show();
+		$('#buttons a[name="proceed"]').show();
+		$('#buttons a[name="check"]').hide();
+		$('#checkresult').show();
+		$('input[name="speltword"]').prop("disabled", true);
+		
+		var readaloud = parseInt(localStorage.getItem("readaloud"));
+		if(readaloud==1 || readaloud==3) read_foreign();
+		checkSpelling();
+	});
+
+}
+
+var checkSpelling = function(){
+	var user_spelling=$('input[name="speltword"]').val().trim();
+	var correct_spelling=$('#fword').html();
+	var corr_spell_arr = correct_spelling.split('<br>'); // this works if spelling and kanji are always in different rows for nouns
+	var correct = corr_spell_arr.includes(user_spelling);
+	console.log("DEBUG: ",user_spelling,corr_spell_arr,corr_spell_arr.includes(user_spelling));
+	if (correct){
+		$('#checkresult').text("Correct. The correct answer is:");
+		$('#checkresult').css("color", "green");
+	}
+	else{
+		$('#checkresult').text("Wrong. The correct answer is:");
+		$('#checkresult').css("color", "red");
+	}
 }
 
 // ---------------------------------------------------------------------
@@ -240,7 +312,8 @@ var selectWord = function (returning=false){
 	switch (QUIZTYPE){
         case 0: // training
 			return selectTrainingWord(returning);
-		case 1:
+		case 3: // spelling
+		case 1: // testing
 			return selectTestingWord(); // returning should work anyway
 		default:
 			return;
@@ -320,7 +393,8 @@ var updateProgressBar = function(calcOnly=false){
 	switch (QUIZTYPE){
         case 0: // training
 			return updateProgressBarTraining(calcOnly);
-		case 1:
+		case 3: // spelling
+		case 1: // testing
 			return updateProgressBarTest(calcOnly);
 		default:
 			return;

@@ -108,7 +108,7 @@ var show_word_form = function (fct, object){
 	// with the data in obj after this function
 
 	var form = '<form id="form-newword" method="post">';
-				form+='<label class="labelWithMargin" for="foreign">Foreign word:</label><textarea name="foreign" lang="ja"></textarea>';
+				form+='<label class="labelWithMargin" for="foreign">Foreign word:<br /><span style="color:#3E4040;">Separate correct answers into new rows, so that the spellchecker can work</span></label><textarea name="foreign" lang="ja"></textarea>';
 				form+='<label class="labelWithMargin" for="native">Native word:</label><textarea name="native" lang="de"></textarea>';
 				form+='<label class="labelWithMargin" for="comment">Comment:</label><textarea name="comment" lang="de"></textarea>';
     			form+='<label class="labelWithMargin" for="lecture">Lecture:</label>';

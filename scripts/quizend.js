@@ -43,6 +43,7 @@ var evaluateQuiz = function(){
 			}
 			break;
 		case 1: // testing
+		case 3: // spelling
 			for (var i = 0; i < all; i++) {
 				if (QUIZWORDS[i].SubLevel == 1){
 					console.log("DEBUGx:", QUIZWORDS[i].NWord,QUIZWORDS[i].Level, Math.min(QUIZWORDS[i].Level+1, 4));
@@ -71,14 +72,14 @@ var evaluateQuiz = function(){
 		string += 'Quiz completed by <span class="textpink">'+Number(COMPLETION).toFixed(1)+'%</span><br /><br />'; // TODO
 		string += 'Number of words: &nbsp<span class="textpink">'+all+'</span><br />';
 		if (QUIZTYPE==0) string += 'Perfect answers: <span class="textpink">'+perfect+' ('+(perfect/all*100).toFixed(1)+'%)</span><br />';
-		if (QUIZTYPE<2) string += 'Good answers: &nbsp&nbsp&nbsp&nbsp&nbsp<span class="textpink">'+good+' ('+(good/all*100).toFixed(1)+'%)</span><br />';
-		if (QUIZTYPE<2) string += 'Bad answers: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="textpink">'+bad+' ('+(bad/all*100).toFixed(1)+'%)</span><br /><br />';
+		if (QUIZTYPE!=2) string += 'Good answers: &nbsp&nbsp&nbsp&nbsp&nbsp<span class="textpink">'+good+' ('+(good/all*100).toFixed(1)+'%)</span><br />';
+		if (QUIZTYPE!=2) string += 'Bad answers: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="textpink">'+bad+' ('+(bad/all*100).toFixed(1)+'%)</span><br /><br />';
 		string += 'Time used: <span class="textpink">'+timeHumanReadable(QUIZDURATION)+'</span><br /><br />'; // TODO
 		string += '</div>';
 
 	$('#main').append(string);
 
-	if (QUIZTYPE<2) saveOutcome(data);
+	if (QUIZTYPE!=2) saveOutcome(data);
 
 	saveStatistics(perfect+good, QUIZDURATION);
 
@@ -109,6 +110,10 @@ var saveOutcome = function(data){
 		success: function(res){
 			console.log("QUIZEND: ",res);
 			if (CURRENTPAGE=="quizend")$('#main').append('<div>Saving Quiz outcome:<br /><span class="textpink">'+ res+'</span></div><br />');
-        }
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+	        	console.log("NEWWORD AJAX ERROR:",jqXHR, textStatus, errorThrown);
+	        	alert("Timeout! Sorry, Quiz is not saved");
+	    }
 	});
 }
