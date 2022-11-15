@@ -6,6 +6,7 @@ var loadpage_words = function(data){
 	LECID=data[0]; // or tag id if SHOWTAG=true
 	lecture_name=data[1];
 	LECNAME=lecture_name;
+	BACK_TO = 0;
 	console.log("WORDS:", SHOWTAG, LECID, LECNAME);
 
 	if (lecture_name.length<5) lecture_name="Lecture: "+lecture_name; // less confusing for short lecture titles

@@ -4,10 +4,10 @@ $debug=false;
 
 include('db_connect.php');
 if ($debug) {
-	$_POST['nWords']=6;
+	$_POST['nWords']=15;
 	$_POST['sortby']='worst';
-	$_POST['tags']=["12"];
-	//$_POST['lectures']=["20"];
+	//$_POST['tags']=["12"];
+	$_POST['lectures']=["9"];
 	$_POST['offset']=0;
 }
 
@@ -80,7 +80,10 @@ if ( isset($_POST['nWords'])) {
 			LEFT JOIN voc_tag b 
 			ON c.ID = b.VocID 
 			LEFT JOIN lectures d
-			ON d.ID = a.LecID WHERE '.$where.' '.$orderby.' '.$limit.' '.$offset;
+			ON d.ID = a.LecID WHERE '.$where.' 
+			GROUP BY c.ID '.$orderby.' '.$limit.' '.$offset;
+
+			// group by: used to select only one word with same id, otherwise you would get x rows for a word with x different tags
 
 	if ($debug) echo 'The call: <br />'.$sql1.'<br /><br />';
 

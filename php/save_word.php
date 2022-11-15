@@ -6,7 +6,7 @@ include('db_connect.php');
 $_POST['ID']="0";
 $_POST['LecID']="add_new_lecture";
 $_POST['Lecture']="Test";
-$_POST['Tags']=[["add_new_tags",""],["0","NewTag"], ["1", "OldTag"]];
+$_POST['Tags']=[["add_new_tags",""],["0","NewTag"], ["1", "OldTag"]]; // array of [id,name]
 $_POST['Foreign'] = "Test";
 $_POST['Native'] = "TestN";
 $_POST['Comment'] = "TestC2";
@@ -28,7 +28,7 @@ if ( isset($_POST['LecID'])) {
 	}
 	
 
-	// add new tags
+	// add new tags // array of [id,name]
 	if (isset($_POST['Tags'])){ // if no tag is chosen this would fail otherwise
 		$tags = $_POST['Tags'];
 		$newtags = array();

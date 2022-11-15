@@ -57,7 +57,7 @@ var show_quiz_settings = function(){
 		form +='<div id="tags" name="tags"></div><div style="clear:both;"></div><br /><br />';
 		form +='<label for="sort" class="textpink">Sort/choose words by:</label><br />';
 		form +='<input type="radio" name="sort" id="random" value="random"><label for="random">Random</label><br>';
-		form +='<input type="radio" name="sort" id="oldest" value="oldest"><label for="oldest">Oldest Level</label><br>';
+		form +='<input type="radio" name="sort" id="oldest" value="oldest"><label for="oldest">Oldest access</label><br>';
 		form +='<input type="radio" name="sort" id="worst" value="worst" checked="checked"><label for="worst">Worst level</label><br><br />';
 		form +='<label for="type" class="textpink">Quiz type:</label><br />';
 		form +='<input type="radio" name="type" id="training" value="training" checked="checked"><label for="training">Training</label><br>';

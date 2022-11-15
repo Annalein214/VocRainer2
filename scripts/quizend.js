@@ -4,7 +4,7 @@ var loadpage_quizend = function (){
 	$('#header div.h1').text("Quiz Summary");
 
 	$('#header a[name="right"]').text("New").show().unbind( "click" ).click(function(event){
-		//TODO
+		loadpage('quizstart');
 	});
 	evaluateQuiz();
 }

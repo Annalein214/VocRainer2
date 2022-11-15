@@ -50,6 +50,16 @@ var updateQuizWord = function(data){
 	// data {ID:id, Foreign:foreign, Native:native,Comment:comment,LecID:lectureid, Lecture:lecture, Tags:tags}
 	console.log("QUIZ: Update edited word online:", QUIZWORDS.length, data);
 
+	// tags: array of [id,name]
+	var tagids=[];
+	var tagnames=[];
+	for (var i=0; i<data.Tags.length; i++){
+		tagids.push(data.Tags[i][0]);
+		tagnames.push(data.Tags[i][1]);
+	}
+
+	console.log("DEBUG UPDATE", tagids, tagnames)
+
 	if (QUIZWORDS.length){ // if quiz running
 		for (var i = 0; i < QUIZWORDS.length; i++) {
 			if (QUIZWORDS[i].ID == data.ID){
@@ -57,6 +67,10 @@ var updateQuizWord = function(data){
 				QUIZWORDS[i].FWord = data.Foreign;
 				QUIZWORDS[i].NWord = data.Native;
 				QUIZWORDS[i].Comment = data.Comment;
+				QUIZWORDS[i].LecID = data.LecID;
+				QUIZWORDS[i].LecName = data.Lecture;
+				QUIZWORDS[i].TagIDs = tagids;
+				QUIZWORDS[i].TagNames = tagnames;
 				break;
 			}
 		} 
@@ -69,10 +83,16 @@ var updateQuizWord = function(data){
 				SELECTEDWORDS[i].FWord = data.Foreign;
 				SELECTEDWORDS[i].NWord = data.Native;
 				SELECTEDWORDS[i].Comment = data.Comment;
+				SELECTEDWORDS[i].LecID = data.LecID;
+				SELECTEDWORDS[i].LecName = data.Lecture;
+				SELECTEDWORDS[i].TagIDs = tagids;
+				SELECTEDWORDS[i].TagNames = tagnames;
 				break;
 			}
 		}
 	} 
+
+	console.log("DEBUG UPDATE", QUIZWORDS, SELECTEDWORDS)
 
 }
 
