@@ -85,10 +85,14 @@ var load_word = function (word_id){
 			type:"POST",
 	        data:{WordID:word_id},
 			success: function(data){
-				console.log("DEBUG: data ", data);
+				//console.log("DEBUG: data ", data);
 				const obj = JSON.parse(data);
 				//console.log("DEBUG: JSON ", obj, obj["ID"]);
 				show_word_form(fill_word_form, obj);
+	        },
+	        error: function(jqXHR, textStatus, errorThrown){
+	        	console.log("NEWWORD AJAX ERROR:",jqXHR, textStatus, errorThrown);
+	        	alert("Timeout! Sorry, please reload this page");
 	        }
 		});
 	}
@@ -130,18 +134,16 @@ var show_word_form = function (fct, object){
 
 	    // --------------------
 		// add default lecture if no quiz is running and not using the search
-		console.log("NEWWORD: change to default lecture", LECID, SHOWTAG, QUIZWORDS.length, BACK_TO);
+		//console.log("NEWWORD: change to default lecture", LECID, SHOWTAG, QUIZWORDS.length, BACK_TO);
 		if (SHOWTAG==false && QUIZWORDS.length==0 && BACK_TO==0) {
-			console.log("DEBUG", LECID);
+			//console.log("DEBUG", LECID);
 			$('#form-newword select[name="lecture"]').val(LECID).change();
 		}
-		console.log("NEWWORD: ready loading 1");
 		if (!object){
 			// this is the end of this function
 			// if a new word is requested, no further data needs to be loaded
 
 			$("#busy").hide();
-			console.log("BUSY HIDE");
 		}
 	}
 
@@ -197,7 +199,7 @@ var fill_word_form = function (obj){
 
     // sometimes lecture is empty when word is accessed from search. The following seems to fix it.
     // I think the reason was fighting with the LECID setting in the other function, disabled it there for searches now
-    console.log("WORD filling lecture ID:", obj["LectureID"], $('#form-newword select[name="lecture"]').val());
+    //console.log("WORD filling lecture ID:", obj["LectureID"], $('#form-newword select[name="lecture"]').val());
     $('#form-newword select[name="lecture"]').val(obj["LectureID"]).change();
     var check = $('#form-newword select[name="lecture"]').val();
     if (check!=obj["LectureID"]){
@@ -225,7 +227,7 @@ var get_new_word_properties = function(){
 	var id = $('#form-newword span[name="wordid"]').text();
 	if (id == "") id=0;
 	var foreign = cescape($('#form-newword textarea[name="foreign"]').val());
-	console.log("Foreign", foreign);
+	//console.log("Foreign", foreign);
     var native = cescape($('#form-newword textarea[name="native"]').val());
     var comment = cescape($('#form-newword textarea[name="comment"]').val());
 
@@ -299,7 +301,11 @@ var save_new_word_properties = function(send){
 			updateQuizWord(send); // function to be found in quiz.js
 
 			word_last_page();
-        }
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+	        	console.log("NEWWORD AJAX ERROR:",jqXHR, textStatus, errorThrown);
+	        	alert("Timeout! Sorry, please reload this page");
+	    }
 	});
 }
 
