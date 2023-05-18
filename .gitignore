@@ -1,0 +1,10 @@
+helpers
+php/db_connect.php
+genki-db
+jquery.js
+sftp-config.json
+sql
+img/.DS_Store
+php/.DS_Store
+.DS_Store
+Kanji_Background.key
